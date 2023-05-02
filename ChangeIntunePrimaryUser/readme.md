@@ -6,4 +6,5 @@ You'll need an Azure AD Application Registration in other to securely run this s
 
 If you've never registered an application before to authenticate to Azure AD, this [Microsoft Quickstart Guide on App Registration](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) is a good starting point. 
 
-image.png
+![image](https://user-images.githubusercontent.com/53497092/235554545-a66fd398-63b2-4352-98db-56ec8afc4e24.png)
+
