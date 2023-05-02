@@ -2,10 +2,10 @@
 This script will either change the Intune primary user to the last logged on user, or remove the primary user altogether to devices in a specified Azure AD security group.
 
 # Problem
-Users are unable to use the Company Portal application to self-service install applications on their own. This is due to the current user not being the primary user of the device. Users can install apps via the Company Portal in one of two ways:
+Users are unable to use the Company Portal application to self-service install applications on their own. Users can install apps via the Company Portal in one of two ways:
 
 1. User is the primary user as indicated in the device object in Intune
-2. There is no primary user assigned to the device object in Intune. The primary user in the Intune console on the device object will show up as None
+2. There is no primary user assigned to the device object in Intune. The primary user in the Intune console on the device object will show up as None. This type of configuration is considered a shared device configuration. A device is typically in this state if it's enrolled via a Provisioning Package or an Autopilot Self Deploying profile.
 
 # Primary User benefits
 Having a primary user has the following benefits
@@ -37,7 +37,7 @@ Either keep the defaults, or change the **Expires** value to a value you're comf
 
 After you click **Add**, ***copy the value of the secret***. It's important to copy this value now as when you leave this screen, the value column will not show the full value when you return. This value is what you'll use in the script to authenticate. Also make sure to note when this application expires. You'll need to generate a new client secret on or before that date. 
 
-Click on **API permissions**. You'll need the following permissions and Admin consent will need to be required for them.
+Click on **API permissions**. You'll need the following permissions and Admin consent is required for them.
 
 To add the permissions, click **Add a permission** and select **Microsoft Graph** in the fly out, then select **Application permissions**. In the select permissions area, search for the below permissions and add them.
 
@@ -48,7 +48,7 @@ To add the permissions, click **Add a permission** and select **Microsoft Graph*
 - GroupMember.Read.All
 - User.Read.All
 
-Once you've selected all of the permissions, click **Grant admin consent for "your tenant name"**. Your permissions should look something like this. 
+Once you've selected the permissions, click **Grant admin consent for "your tenant name"**. Your permissions should look like this. 
 
 ![image](https://user-images.githubusercontent.com/53497092/235557304-5afd507b-01cd-4a85-b9f9-8ad48eeed1b8.png)
 
