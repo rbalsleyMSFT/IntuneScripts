@@ -1,5 +1,11 @@
 # Change or Remove Intune Primary User
-This script will either change the Intune primary user to the last logged on user, or remove the primary user altogether. If you're having issues with the Company Portal and non-primary users are unable to install applications, this script can help fix that.
+This script will either change the Intune primary user to the last logged on user, or remove the primary user altogether. 
+
+# Problem
+Users are unable to use the Company Portal application to self-service install applications on their own. This is due to the current user not being the primary user of the device. Users can install apps via the Company Portal in one of two ways:
+
+1. User is the primary user as indicated in the device object in Intune
+2. There is no primary user assigned to the device object in Intune. The primary user in the Intune console on the device object will show up as None
 
 # Authentication
 You'll need an Azure AD Application Registration in other to securely run this script. It's not designed to use delegated permissions (e.g. your Azure AD account).
