@@ -18,5 +18,43 @@ Below are some screenshots on how your application should be configured
 
 Once registered, select **Certificates & secrets**
 
+![image](https://user-images.githubusercontent.com/53497092/235555804-9884172b-090b-4843-a0a6-3a112dba6d74.png)
+
+Select either Certificates to upload a certificate (most secure) or click New client secret (in this guide will use a new client secret since it's easier)
+
+![image](https://user-images.githubusercontent.com/53497092/235555971-21e867f7-79b6-433e-8926-1fdf71fedbfc.png)
+
+Either keep the defaults, or change the Expires value to a value you're comfortable with. Microsoft recommends a value of 12 months or less.
+
+![image](https://user-images.githubusercontent.com/53497092/235556069-b6c34f65-5346-49cd-9fd3-426d691c1ca7.png)
+
+After you click Add, copy the value of the secret. It's important to copy this value now as when you leave this screen, the value column will not show the full value when you return. This value is what you'll use in the script to authenticate. Also make sure to note when this application expires. You'll need to generate a new client secret on or before that date. 
+
+Click on API permissions. You'll need the following permissions and Admin consent will need to be required for them.
+
+To add the permissions, click Add a permission and select Microsoft Graph in the fly out, then select Application permissions. In the select permissions area, search for the below permissions and add them.
+
+- Device.Read.All
+- DeviceManagementConfiguration.Read.All
+- DeviceManagementManagedDevices.ReadWrite.All
+- Group.Read.All
+- GroupMember.Read.All
+- User.Read.All
+
+Once you've selected all of the permissions, click Grand admin consent for <your tenant name>. Your permissions should look something like this. 
+
+![image](https://user-images.githubusercontent.com/53497092/235557304-5afd507b-01cd-4a85-b9f9-8ad48eeed1b8.png)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
