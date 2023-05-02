@@ -76,6 +76,7 @@ By default, the script will not output anything. If you want console output, use
 
 ## Examples
 .\ChangeIntunePrimaryUser.ps1 -GroupName 'MyGroup' -action remove
+
 .\ChangeIntunePrimaryUser.ps1 -GroupName 'MyGroup' -action change
 
 
