@@ -55,9 +55,9 @@ $clientId and $tenantID are what you get from the app you just made (go to the O
 # Run the script
 There are 3 parameters you'll need to provide
 
--GroupName - This is the name of your Azure AD security group
--Prefix - This is the device name prefix you wish to use. Do not include a dash after the prefix. The script will add a dash to separate the prefix and suffix.
--Suffix - This is the suffix you wish to use. This can either be {{serialnumber}} or {{rand:x}} where x is the number of random digits you wish to have after the device prefix. 
+- GroupName - This is the name of your Azure AD security group
+- Prefix - This is the device name prefix you wish to use. Do not include a dash after the prefix. The script will add a dash to separate the prefix and suffix.
+- Suffix - This is the suffix you wish to use. This can either be {{serialnumber}} or {{rand:x}} where x is the number of random digits you wish to have after the device prefix. 
 
 By default, the script will not output anything. If you want console output, use the -verbose parameter. There is a log that gets created in the root folder of where the script is being run from. 
 
