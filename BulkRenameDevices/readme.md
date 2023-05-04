@@ -63,6 +63,8 @@ By default, the script will not output anything. If you want console output, use
 
 The script will throttle after 100 devices. The API docs don't indicate how many requests can be done within a specific amount of time. So the script will default to doing 100 devices every 20 seconds. 
 
+Once the script has renamed a device, the device will need to be rebooted in order for the name to change to take. Intune can take a little while before it issues the command to the device. If you check a device object in the Intune console and it says the rename has completed, that means the rename command has made it to the device, not that the device's name has been changed. The device will still need to be rebooted. It's probably best to assume that after monthly patches have been installed that all of the devices should have their names changed (or ask your users to reboot).
+
 ## Examples
 .\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{rand:6}}'
 
