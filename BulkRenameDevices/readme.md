@@ -64,9 +64,11 @@ By default, the script will not output anything. If you want console output, use
 The script will throttle after 100 devices. The API docs don't indicate how many requests can be done within a specific amount of time. So the script will default to doing 100 devices every 20 seconds. 
 
 ## Examples
-.\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{rand:6}} 
+.\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{rand:6}}'
 
-.\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{rand:6}} 
+.\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{serialnumber}}'
+
+And yes, you need those weird curly brackets.
 
 
 
