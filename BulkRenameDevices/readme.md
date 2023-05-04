@@ -53,19 +53,20 @@ There are three variables you'll need to customize
 $clientId and $tenantID are what you get from the app you just made (go to the Overview tab within the app in the Azure portal to get those values). The $clientSecret is the value you copied from the app when you made the client secret earlier (you did remember to copy that, right?)
 
 # Run the script
-The script has an action variable that accepts two commands:
+There are 3 parameters you'll need to provide
 
-- Remove: remove will remove the primary user. The device will show up with a primary user of None
-- Change: change will change the primary user to the last logged on user of the device
-
-There is also a variable named GroupName which is the display name of the Azure AD security group that contains the devices you want to change the primary user of.
+-GroupName - This is the name of your Azure AD security group
+-Prefix - This is the device name prefix you wish to use. Do not include a dash after the prefix. The script will add a dash to separate the prefix and suffix.
+-Suffix - This is the suffix you wish to use. This can either be {{serialnumber}} or {{rand:x}} where x is the number of random digits you wish to have after the device prefix. 
 
 By default, the script will not output anything. If you want console output, use the -verbose parameter. There is a log that gets created in the root folder of where the script is being run from. 
 
-## Examples
-.\ChangeIntunePrimaryUser.ps1 -GroupName 'MyGroup' -action remove
+The script will throttle after 100 devices. The API docs don't indicate how many requests can be done within a specific amount of time. So the script will default to doing 100 devices every 20 seconds. 
 
-.\ChangeIntunePrimaryUser.ps1 -GroupName 'MyGroup' -action change
+## Examples
+.\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{rand:6}} 
+
+.\BulkRenameDevices.ps1 -GroupName 'MyGroup' -Prefix 'MSFT' -Suffix '{{rand:6}} 
 
 
 

@@ -66,8 +66,8 @@ function Set-DeviceName($accessToken, $deviceID, $newDeviceName) {
 }
 
 function Invoke-ThrottledRequest ($accessToken, $deviceID, $newDeviceName) {
-    if ($script:RequestCounter -eq 200) {
-        WriteLog "Graph API limit of 200 requests hit. Sleeping for 20 seconds before resuming"
+    if ($script:RequestCounter -eq 100) {
+        WriteLog "Graph API limit of 100 requests hit. Sleeping for 20 seconds before resuming"
         Start-Sleep -Seconds 20
         $script:RequestCounter = 0
     }
