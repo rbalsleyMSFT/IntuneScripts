@@ -5,7 +5,7 @@ This script will bulk rename devices based on an Azure AD security group.
 By default, Intune's in-console bulk actions support 100 devices at a time and also requires you to individually select the devices you wish to rename. This makes it impossible to use this feature in a large organization where you might have devices that were enrolled with the wrong names.
 
 # Authentication
-You'll need an Azure AD Application Registration in other to securely run this script. It's not designed to use delegated permissions (e.g. your Azure AD account).
+You'll need an Azure AD Application Registration in order to securely run this script. It's not designed to use delegated permissions (e.g. your Azure AD account).
 
 If you've never registered an application before to authenticate to Azure AD, this [Microsoft Quickstart Guide on App Registration](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) is a good starting point.
 
