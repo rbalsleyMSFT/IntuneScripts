@@ -38,7 +38,7 @@ To add the permissions, click **Add a permission** and select **Microsoft Graph*
 
 Once you've selected the permissions, click **Grant admin consent for "your tenant name"**. Your permissions should look like this. 
 
-![image](https://user-images.githubusercontent.com/53497092/235557304-5afd507b-01cd-4a85-b9f9-8ad48eeed1b8.png)
+![image](https://user-images.githubusercontent.com/53497092/236078199-d19c305b-22ea-4803-9231-07c53b73b75a.png)
 
 Now you're ready to customize the script
 
