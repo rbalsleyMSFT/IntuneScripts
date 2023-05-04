@@ -5,7 +5,6 @@ param(
     [ValidateSet("change", "remove")]
     [string]$Action
 )
-
 # Replace these with your app registration values
 $clientId = '<Your Application clientID>'
 $clientSecret ='<Your Application clientSecret>' 
@@ -50,37 +49,37 @@ function Get-DeviceObjects ($accessToken, $groupId) {
 }
 
 function Get-LastLoggedOnUser ($accessToken, $intuneDeviceId) {
-    WriteLog "Getting last logged on user for device $($device.displayname) with Intune deviceID $intuneDeviceID"
+    WriteLog "Getting last logged on user for device $deviceName with Intune deviceID $intuneDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/${intuneDeviceId}?`$select=usersLoggedOn"
     $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $lastLoggedOnUserID = (ConvertFrom-Json $response.Content).usersLoggedOn[-1].userId
-    WriteLog "Last logged on user for device $($device.displayName): $lastLoggedOnUserID"
+    WriteLog "Last logged on user for device $deviceName`: $lastLoggedOnUserID"
     return $lastLoggedOnUserID
 }
 
 function Get-PrimaryUser ($accessToken, $intuneDeviceId) {
-    WriteLog "Getting primary user for device $($device.displayname) with Intune deviceID $intuneDeviceID"
+    WriteLog "Getting primary user for device $deviceName with Intune deviceID $intuneDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/$intuneDeviceId/users"
     $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $primaryUserID = (ConvertFrom-Json $response.Content).value.id
     $primaryUserDisplayName = (ConvertFrom-Json $response.Content).value.displayName
-    WriteLog "Primary user for device $($device.displayname): $primaryUserDisplayName (UserID: $primaryUserID)"
+    WriteLog "Primary user for device $deviceName`: $primaryUserDisplayName (UserID: $primaryUserID)"
     return $primaryUserID
 }
 
 function Update-PrimaryUser ($accessToken, $deviceId, $userId) {
-    WriteLog "Updating primary user for device $($device.displayname) with Intune deviceID $intuneDeviceID with userID $userID"
+    WriteLog "Updating primary user for device $deviceName with Intune deviceID $intuneDeviceID with userID $userID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/$deviceId/users/`$ref"
     $userURI = "https://graph.microsoft.com/beta/users/$userId"
     $body = @{ '@odata.id'="$userURI" } | ConvertTo-Json -Compress
-    Invoke-WebRequest -Method Post -Uri $url -Body $body -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
+    Invoke-WebRequest -Method Post -Uri $url -Body $body -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"} | Out-Null
     WriteLog "Update Complete"
 }
 
 function Remove-PrimaryUser ($accessToken, $deviceId) {
-    WriteLog "Removing Primary User from device $($device.displayname) with Intune deviceID $intuneDeviceID"
+    WriteLog "Removing Primary User from device $deviceName with Intune deviceID $intuneDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/$deviceId/users/`$ref"
-    Invoke-WebRequest -Method Delete -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
+    Invoke-WebRequest -Method Delete -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"} | Out-Null
     WriteLog "Removal Complete"
 }
 
@@ -101,11 +100,15 @@ function Invoke-ThrottledRequest ($accessToken, $action, $deviceId, $userId) {
     WriteLog "Incrementing API request count to: $script:RequestCounter"
 }
 function Get-IntuneDeviceId ($accessToken, $aadDeviceId) {
-    WriteLog "Getting Intune deviceID for device $($device.displayname) with AzureAD deviceID $aadDeviceID"
+    WriteLog "Getting Intune deviceID for device $deviceName with AzureAD deviceID $aadDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices?`$filter=azureADDeviceId eq '$aadDeviceId'"
     $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $intuneDeviceId = (ConvertFrom-Json $response.Content).value[0].id
-    WriteLog "Intune deviceID for device $($device.displayname): $intuneDeviceID"
+    if ($null -eq $intuneDeviceID){
+        Writelog "Intune deviceID for AAD device $deviceName not found. Skipping."
+        return
+    }
+    WriteLog "Intune deviceID for device $deviceName`: $intuneDeviceID"
     return $intuneDeviceId
 }
 
@@ -121,7 +124,13 @@ try{
     $groupId = Get-AADGroupId -accessToken $accessToken -groupName $GroupName
     $deviceObjects = Get-DeviceObjects -accessToken $accessToken -groupId $groupId
     foreach ($device in $deviceObjects) {
+        $deviceName = $device.displayName
+        WriteLog "====="
         $intuneDeviceId = Get-IntuneDeviceId -accessToken $accessToken -aadDeviceId $device.deviceId
+        #If Intune Device ID isn't found, skip the device and move to the next one
+        if($null -eq $intuneDeviceId){
+            Continue
+        }
         $primaryUser = Get-PrimaryUser -accessToken $accessToken -intuneDeviceId $intuneDeviceId
         if ($Action -eq "change") {
             $lastLoggedOnUser = Get-LastLoggedOnUser -accessToken $accessToken -intuneDeviceId $intuneDeviceId
@@ -146,6 +155,3 @@ try{
 catch{
     throw $_
 }
-
-
-
