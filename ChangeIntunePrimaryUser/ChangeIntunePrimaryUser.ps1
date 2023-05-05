@@ -26,16 +26,21 @@ function Get-AccessToken {
     }
 
     $response = Invoke-WebRequest -Method Post -Uri $tokenUrl -ContentType "application/x-www-form-urlencoded" -Body $body
+    $accessToken = (ConvertFrom-Json $response.Content).access_token
+    $expiresIn = (ConvertFrom-Json $response.Content).expires_in
+    $expirationTime = (Get-Date).AddSeconds($expiresIn)
     WriteLog 'Successfully obtained access token'
-    return (ConvertFrom-Json $response.Content).access_token
+    WriteLog "Access token expiration date and time: $expirationTime"
+    return $accessToken, $expirationTime
 }
+
 
 function Get-AADGroupId ($accessToken, $groupName) {
     WriteLog "Getting Azure AD Group ID for group $groupName"
     $url = "https://graph.microsoft.com/beta/groups?`$filter=displayName eq '$groupName'"
     $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $groupID = (ConvertFrom-Json $response.Content).value[0].id
-    Writelog "$groupName groupID is $groupID"
+    Writelog "$groupName ID is $groupID"
     return $groupID
 }
 
@@ -154,10 +159,14 @@ try{
     }
     Writelog 'Starting script'
     WriteLog "Script action set to: $action"
-    $accessToken = Get-AccessToken
+    $accessToken, $tokenExpirationTime = Get-AccessToken
     $groupId = Get-AADGroupId -accessToken $accessToken -groupName $GroupName
     $deviceObjects = Get-DeviceObjects -accessToken $accessToken -groupId $groupId
     foreach ($device in $deviceObjects) {
+        if ((Get-Date) -ge $tokenExpirationTime.AddMinutes(-5)) {
+            WriteLog 'Access token is about to expire. Refreshing token...'
+            $accessToken, $tokenExpirationTime = Get-AccessToken
+        }
         $deviceName = $device.displayName
         WriteLog "====="
         $counter++
