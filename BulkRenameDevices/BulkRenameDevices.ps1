@@ -6,7 +6,6 @@ param (
     [Parameter(Mandatory = $true)]
     [string]$suffix
 )
-
 # Replace these with your app registration values
 $clientId = '<Your Application clientID>'
 $clientSecret ='<Your Application clientSecret>' 
@@ -21,15 +20,19 @@ function Get-AccessToken {
     WriteLog 'Getting Access token'
     $tokenUrl = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token"
     $body = @{
-        grant_type    = "client_credentials"
-        client_id     = $clientId
+        grant_type = "client_credentials"
+        client_id = $clientId
         client_secret = $clientSecret
-        scope         = "https://graph.microsoft.com/.default"
+        scope = "https://graph.microsoft.com/.default"
     }
 
     $response = Invoke-WebRequest -Method Post -Uri $tokenUrl -ContentType "application/x-www-form-urlencoded" -Body $body
+    $accessToken = (ConvertFrom-Json $response.Content).access_token
+    $expiresIn = (ConvertFrom-Json $response.Content).expires_in
+    $expirationTime = (Get-Date).AddSeconds($expiresIn)
     WriteLog 'Successfully obtained access token'
-    return (ConvertFrom-Json $response.Content).access_token
+    WriteLog "Access token expiration date and time: $expirationTime"
+    return $accessToken, $expirationTime
 }
 
 function Get-AADGroupId ($accessToken, $groupName) {
@@ -44,9 +47,16 @@ function Get-AADGroupId ($accessToken, $groupName) {
 function Get-DeviceObjects ($accessToken, $groupId) {
     WriteLog "Getting members of $groupName"
     $url = "https://graph.microsoft.com/beta/groups/$groupId/members"
-    $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
-    $groupMembers = (ConvertFrom-Json $response.Content).value
-    WriteLog "Getting members of $groupName successful. $groupName contains $($groupmembers.count) members"
+    $groupMembers = @()
+
+    do {
+        $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
+        $pagedResults = (ConvertFrom-Json $response.Content).value
+        $groupMembers += $pagedResults
+        $url = (ConvertFrom-Json $response.Content).'@odata.nextLink'
+    } while ($null -ne $url)
+
+    WriteLog "Getting members of $groupName successful. $groupName contains $($groupMembers.count) members"
     return $groupMembers
 }
 
@@ -101,11 +111,15 @@ try{
         }
     }
     
-    $accessToken = Get-AccessToken
+    $accessToken, $tokenExpirationTime = Get-AccessToken
     $groupID = Get-AADGroupID -accessToken $accessToken -groupName $groupName
     $deviceObjects = Get-DeviceObjects -accessToken $accessToken -groupId $groupID
     
     foreach ($device in $deviceObjects) {
+        if ((Get-Date) -ge $tokenExpirationTime.AddMinutes(-5)) {
+            WriteLog 'Access token is about to expire. Refreshing token...'
+            $accessToken, $tokenExpirationTime = Get-AccessToken
+        }
         $intuneDeviceId = Get-IntuneDeviceId -accessToken $accessToken -aadDeviceId $device.deviceID
         $oldDeviceName = $device.displayName
         $newDeviceName = "$prefix-$suffix"
