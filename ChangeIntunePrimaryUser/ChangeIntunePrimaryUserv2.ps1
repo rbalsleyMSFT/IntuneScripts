@@ -6,14 +6,9 @@ param(
     [string]$Action
 )
 # # Replace these with your app registration values
-# $clientId = '<Your Application clientID>'
-# $clientSecret ='<Your Application clientSecret>' 
-# $tenantId = '<Your tenantID>'
-
-# Replace these with your app registration values
-$clientId = '4c4f3db9-8e20-48c2-af4a-6628f38d9b78'
-$clientSecret ='7lP8Q~rllOYoo2bmFs_dgMPU-aOynjcM2bHzjb3S' 
-$tenantId = 'bc76ba6d-d00d-4429-b87e-93898743b2e2'
+$clientId = '<Your Application clientID>'
+$clientSecret ='<Your Application clientSecret>' 
+$tenantId = '<Your tenantID>'
 
 $Logfile = "$PSScriptRoot\ChangePrimaryUser.log"
 function WriteLog($LogText) { 
