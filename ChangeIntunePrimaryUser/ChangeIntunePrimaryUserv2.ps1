@@ -53,9 +53,8 @@ function Get-DeviceObjects ($accessToken, $groupId) {
         $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
         $pagedResults = (ConvertFrom-Json $response.Content).value
         $groupMembers += $pagedResults
-        # $url = (ConvertFrom-Json $response.Content).'@odata.nextLink'
-    # } while ($null -ne $url)
-} while ($groupMembers.count -le 60000)
+        $url = (ConvertFrom-Json $response.Content).'@odata.nextLink'
+    } while ($null -ne $url)
 
     WriteLog "Getting members of $groupName successful. $groupName contains $($groupMembers.count) members"
     return $groupMembers
