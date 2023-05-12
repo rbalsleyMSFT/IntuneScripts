@@ -3,6 +3,7 @@ This script will either change the Intune primary user to the last logged on use
 
 ### Updates
 5/12/2023 - Added better error and throttling handling
+
 5/5/2023 - Added token renewal if token is about to expire.
 
 5/4/2023 - Updated pagination handling so it'll now grab all devices if the group is larger than 100 devices. Also fixed an issue where the script would fail if no Intune deviceId was found. 
