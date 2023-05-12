@@ -11,7 +11,7 @@ This script will either change the Intune primary user to the last logged on use
 # Problem
 Users are unable to use the Company Portal application to self-service install applications on their own. Users can install apps via the Company Portal in one of two ways:
 
-1. User is the primary user as indicated in the device object in Intune
+1. User is the primary user as indicated by the device object in Intune
 2. There is no primary user assigned to the device object in Intune. The primary user in the Intune console on the device object will show up as None. This type of configuration is considered a shared device configuration. A device is typically in this state if it's enrolled via a Provisioning Package or an Autopilot Self Deploying profile.
 
 # Primary User benefits
