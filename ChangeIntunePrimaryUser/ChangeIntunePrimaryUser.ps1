@@ -38,7 +38,7 @@ function Get-AccessToken {
 function Get-AADGroupId ($accessToken, $groupName) {
     WriteLog "Getting Azure AD Group ID for group $groupName"
     $url = "https://graph.microsoft.com/beta/groups?`$filter=displayName eq '$groupName'"
-    $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
+    $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $groupID = (ConvertFrom-Json $response.Content).value[0].id
     Writelog "$groupName ID is $groupID"
     return $groupID
@@ -50,7 +50,7 @@ function Get-DeviceObjects ($accessToken, $groupId) {
     $groupMembers = @()
 
     do {
-        $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
+        $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
         $pagedResults = (ConvertFrom-Json $response.Content).value
         $groupMembers += $pagedResults
         $url = (ConvertFrom-Json $response.Content).'@odata.nextLink'
@@ -63,7 +63,7 @@ function Get-DeviceObjects ($accessToken, $groupId) {
 function Get-LastLoggedOnUser ($accessToken, $intuneDeviceId) {
     WriteLog "Getting last logged on user for device $deviceName with Intune deviceID $intuneDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/${intuneDeviceId}?`$select=usersLoggedOn"
-    $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
+    $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $lastLoggedOnUserID = (ConvertFrom-Json $response.Content).usersLoggedOn[-1].userId
     if ($null -eq $lastLoggedOnUserID){
         Writelog 'Last logged on userID not found. Skipping'
@@ -76,7 +76,7 @@ function Get-LastLoggedOnUser ($accessToken, $intuneDeviceId) {
 function Get-PrimaryUser ($accessToken, $intuneDeviceId) {
     WriteLog "Getting primary user for device $deviceName with Intune deviceID $intuneDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/$intuneDeviceId/users"
-    $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
+    $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
     $primaryUserID = (ConvertFrom-Json $response.Content).value.id
     if ($primaryUserID) {
         $primaryUserDisplayName = (ConvertFrom-Json $response.Content).value.displayName
@@ -93,7 +93,7 @@ function Test-UserExists ($accessToken, $userId) {
     WriteLog "Checking if last logged on user exists in Azure AD"
     $url = "https://graph.microsoft.com/beta/users?`$filter=ID eq '$userID'"
     try {
-        $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
+        $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken" }
         $userDisplayName = (ConvertFrom-Json $response.Content).value.displayName
         WriteLog "User displayname for userID $userID is: $userDisplayName"
         return $true
@@ -110,37 +110,21 @@ function Update-PrimaryUser ($accessToken, $deviceId, $userId) {
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/$deviceId/users/`$ref"
     $userURI = "https://graph.microsoft.com/beta/users/$userId"
     $body = @{ '@odata.id'="$userURI" } | ConvertTo-Json -Compress
-    Invoke-WebRequest -Method Post -Uri $url -Body $body -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"} | Out-Null
+    Invoke-WebRequestWithRetry -Method Post -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"} -Body $body | Out-Null
     WriteLog "Update Complete"
 }
 
 function Remove-PrimaryUser ($accessToken, $deviceId) {
     WriteLog "Removing Primary User from device $deviceName with Intune deviceID $intuneDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices/$deviceId/users/`$ref"
-    Invoke-WebRequest -Method Delete -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"} | Out-Null
+    Invoke-WebRequestWithRetry -Method Delete -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"} | Out-Null
     WriteLog "Removal Complete"
 }
 
-function Invoke-ThrottledRequest ($accessToken, $action, $deviceId, $userId) {
-    if ($script:RequestCounter -eq 200) {
-        WriteLog "Graph API limit of 200 requests hit. Sleeping for 20 seconds before resuming"
-        Start-Sleep -Seconds 20
-        $script:RequestCounter = 0
-    }
-
-    if ($action -eq "change") {
-        Update-PrimaryUser -accessToken $accessToken -deviceId $deviceId -userId $userId
-    } elseif ($action -eq "remove") {
-        Remove-PrimaryUser -accessToken $accessToken -deviceId $deviceId
-    }
-
-    $script:RequestCounter++
-    WriteLog "Incrementing API request count to: $script:RequestCounter"
-}
 function Get-IntuneDeviceId ($accessToken, $aadDeviceId) {
     WriteLog "Getting Intune deviceID for device $deviceName with AzureAD deviceID $aadDeviceID"
     $url = "https://graph.microsoft.com/beta/deviceManagement/managedDevices?`$filter=azureADDeviceId eq '$aadDeviceId'"
-    $response = Invoke-WebRequest -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
+    $response = Invoke-WebRequestWithRetry -Method Get -Uri $url -ContentType "application/json" -Headers @{Authorization = "Bearer $accessToken"}
     $intuneDeviceId = (ConvertFrom-Json $response.Content).value[0].id
     if ($null -eq $intuneDeviceID){
         Writelog "Intune deviceID for AAD device $deviceName not found. Skipping."
@@ -149,6 +133,44 @@ function Get-IntuneDeviceId ($accessToken, $aadDeviceId) {
     WriteLog "Intune deviceID for device $deviceName`: $intuneDeviceID"
     return $intuneDeviceId
 }
+
+function Invoke-WebRequestWithRetry ($Method, $Uri, $ContentType, $Headers, $Body) {
+    $maxRetries = 5
+    $retryCount = 0
+    $delay = 60 # Initial delay in seconds, used for exponential backoff
+
+    do {
+        try {
+            
+            if($Body){
+                $response = Invoke-WebRequest -Method $Method -Uri $Uri -ContentType $ContentType -Headers $Headers -Body $Body
+            }
+            else{
+                $response = Invoke-WebRequest -Method $Method -Uri $Uri -ContentType $ContentType -Headers $Headers
+            }
+            return $response
+        }
+        catch {
+            
+            $retryCount++
+            $statusCode = $_.Exception.Response.StatusCode.Value__
+            if ($statusCode -eq 429){
+                $delay = $_.Exception.Response.Headers['Retry-After']
+            }
+
+            if ($statusCode -eq 404){
+                WriteLog "Script returned 404 not found"
+                break
+            }
+            
+            WriteLog "Script failed with error $_"
+            WriteLog "Retrying in $delay seconds. Retry attempt $retryCount of $maxRetries."
+            Start-Sleep -Seconds $delay
+            $delay = $delay * 2
+        }
+    } while ($retryCount -lt $maxRetries)
+}
+
 
 # Main script execution
 $script:RequestCounter = 0
@@ -172,7 +194,6 @@ try{
         $counter++
         WriteLog "Processing device number $counter"
         $intuneDeviceId = Get-IntuneDeviceId -accessToken $accessToken -aadDeviceId $device.deviceId
-        #If Intune Device ID isn't found, skip the device and move to the next one
         if($null -eq $intuneDeviceId){
             Continue
         }
@@ -187,14 +208,14 @@ try{
             }
             if ($primaryUser -ne $lastLoggedOnUser) {
                 WriteLog "Primary user and last logged on user do not match. Changing primary user to last logged on user."
-                Invoke-ThrottledRequest -accessToken $accessToken -action $Action -deviceId $intuneDeviceId -userId $lastLoggedOnUser
+                Update-PrimaryUser -accessToken $accessToken -deviceId $intuneDeviceId -userId $lastLoggedOnUser
             }
             else{
                 WriteLog "Primary user and last logged on user the same. Skipping change"
             }
         } elseif ($Action -eq "remove") {
             if ($primaryUser){
-                Invoke-ThrottledRequest -accessToken $accessToken -action $Action -deviceId $intuneDeviceId
+                Remove-PrimaryUser -accessToken $accessToken -deviceId $intuneDeviceId
             }
             else{
                 WriteLog "No primary user. Skipping removal."
@@ -205,4 +226,5 @@ try{
 }
 catch{
     throw $_
+    WriteLog "Script failed with error $_"
 }
