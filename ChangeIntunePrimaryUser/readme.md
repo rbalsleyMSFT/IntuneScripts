@@ -22,7 +22,7 @@ Having a primary user has the following benefits
 If these benefits don't matter to you, removing the primary user will allow for any user to be able to self-service install applications that have been made available to users. Just know that if a user needs their bitlocker recovery key for any reason, they will need to contact the help desk and have someone get it for them.
 
 # Authentication
-You'll need an Azure AD Application Registration in other to securely run this script. It's not designed to use delegated permissions (e.g. your Azure AD account).
+You'll need an Azure AD Application Registration in order to securely run this script. It's not designed to use delegated permissions (e.g. your Azure AD account).
 
 If you've never registered an application before to authenticate to Azure AD, this [Microsoft Quickstart Guide on App Registration](https://learn.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) is a good starting point.
 
