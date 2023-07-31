@@ -99,16 +99,34 @@ Personalization\Lock Screen Image Url | A http or https Url to a jpg, jpeg or pn
 
 |Setting (Category\Setting name)|What it does|Value
 |---|---|---|
-Privacy\Let Apps Access Location | If using the remote action Locate Device, Let Apps Access Location must be set to Force Allow | Force allow. 
+Privacy\Let Apps Access Location | If using the remote action Locate Device, Let Apps Access Location must be set to Force Allow | Force allow.
 
+## User Settings
+Target the following settings to a user group
+
+### Student User Settings
+These settings are primarily targeted to student users to prevent them from being able to install applications via the internet, USB drive, etc. When non-student users (teachers, IT Admins) sign on to student devices, these policies will not be applied (it may take a minute or so for the policy to sync down and remove the student restrictions).
+
+|Setting (Category\Setting name)|What it does|Value
+|---|---|---|
+Administrative Templates\Windows Components > Attachment Manager\Hide mechanisms to remove zone information (User) | This policy setting allows you to manage whether users can manually remove the zone information from saved file attachments by clicking the Unblock button in the file's property sheet or by using a check box in the security warning dialog. Removing the zone information allows users to open potentially dangerous file attachments that Windows has blocked users from opening. If you enable this policy setting, Windows hides the check box and Unblock button. If you disable this policy setting, Windows shows the check box and Unblock button. If you do not configure this policy setting, Windows hides the check box and Unblock button. | Enabled
+Microsoft App Store\Allow apps from the Microsoft app store to auto update | Specifies whether automatic update of apps from Microsoft Store are allowed. This is necessary to configure if the Microsoft Store is blocked to allow inbox apps to update (Notepad, Calculator, etc) | Allowed
+Microsoft App Store\Require Private Store Only | With the removal of the Store for Business/Education, this policy blocks access to the store. Setting this policy prevents access to the store while allowing the Microsoft New Store App Type to be able to deploy apps via the Winget APIs. | Only Private store is enabled.
+Smart Screen\Enable App Install Control | This policy setting is intended to prevent malicious content from affecting your user's devices when downloading executable content from the internet. | Enable
+
+
+
+
+
+# Custom profile template
+
+## Device Settings
 
 ## User Settings
 
-The following settings should be targeted to users. 
-
 ### Student User Settings
 
-The following settings are primarily focused on student devices to prevent them from being able to run administrative apps or install apps.
+The following settings are primarily focused on student devices to prevent them from being able to run administrative apps: cmd, powershell, reg, regedit. 
 
 #### Deny Administrative Apps
 
