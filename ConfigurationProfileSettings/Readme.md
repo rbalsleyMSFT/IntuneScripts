@@ -1,3 +1,5 @@
+# Recommended EDU Device Configuration Settings for Windows 10/11 devices
+
 The following page lists the recommended settings/policies for an Education environment for Windows 10/11 devices. In Intune, there are many different ways to apply settings or policies
 
 - Settings Catalog
@@ -106,6 +108,10 @@ Target the following settings to a user group
 
 ### Student User Settings
 These settings are primarily targeted to student users to prevent them from being able to install applications via the internet, USB drive, etc. When non-student users (teachers, IT Admins) sign on to student devices, these policies will not be applied (it may take a minute or so for the policy to sync down and remove the student restrictions).
+
+#### Prevent Students from installing apps
+
+This leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser))
 
 |Setting (Category\Setting name)|What it does|Value
 |---|---|---|
