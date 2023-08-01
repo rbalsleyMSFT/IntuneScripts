@@ -80,6 +80,90 @@ Microsoft Edge\Password manager and protection\Allow users to be alerted if thei
 Microsoft Edge\Password manager and protection\Allow users to get a strong password suggestion whenever they are creating an account online | Configures the Password Generator Settings toggle that enables/disables the feature for users. If you enable or don't configure this policy, then Password Generator will offer users a strong and unique password suggestion (via a dropdown) on Signup and Change Password pages. If you disable this policy, users will no longer see strong password suggestions on Signup or Change Password pages. | Disabled
 Microsoft Edge\Password manager and protection\Configure password protection warning trigger | Allows you to control when to trigger password protection warning. Password protection alerts users when they reuse their protected password on potentially suspicious sites. You can use the 'PasswordProtectionLoginURLs' (Configure the list of enterprise login URLs where password protection service should capture fingerprint of password) and 'PasswordProtectionChangePasswordURL' (Configure the change password URL) policies to configure which passwords to protect. Exemptions: Passwords for the sites listed in 'PasswordProtectionLoginURLs' and 'PasswordProtectionChangePasswordURL', as well as for the sites listed in 'SmartScreenAllowListDomains' (Configure the list of domains for which Microsoft Defender SmartScreen won't trigger warnings), will not trigger a password-protection warning. Set to 'PasswordProtectionWarningOff' (0) to not show password protection warningss. Set to 'PasswordProtectionWarningOnPasswordReuse' (1) to show password protection warnings when the user reuses their protected password on a non-allowlisted site. If you disable or don't configure this policy, then the warning trigger is not shown. * 0 = Password protection warning is off. * 1 = Password protection warning is triggered by password reuse. | Enabled (Password protection warning is off)
 
+### News and Interests (Windows 10) and Widgets (Windows 11)
+News and Interests and Widgets, while they may seem the same within Windows, they're managed differently. If you try to remove these in one Settings Catalog profile and you manage both Windows 10 and 11 devices, you'll find that your Windows 10 devices will report errors when disabling Widgets, and you'll find your Windows 11 devices will report errors when disabling News and Interests. To workaround this and to get clean reporting data, you'll want create two separate profiles that target your Windows 10 and Windows 11 devices.
+
+#### Create filters
+
+You can create your Windows 10 and 11 groups in a couple of different ways. In this guide we're going to create two filters and target the All Devices group.
+
+1. Go to **Intune.Microsoft.com** > **Tenant Admin** > **Filters**  
+Click **Create - Managed devices**  
+
+2. On the basics tab for 
+**Filter name** enter **All Windows 10 Devices** and for **Platform** select **Windows 10 and later** then click **Next**
+
+3. On the **Rules** tab, next to **Rule syntax** click **Edit**.  
+In the **Edit rule syntax** box, use the following rule
+
+    (device.osVersion -startsWith "10.0.1") and (device.deviceOwnership -eq "Corporate")
+
+    **Note** This filter will only find corporate enrolled Windows 10 devices. If you happened to personally enroll devices your students or employees use (via OOBE, or manually through Settings or other means) then this filter may not show all of your devices as you expect. It's best at some point in the future to reimage or re-enroll your machines so they are corporate enrolled. 
+
+    Click **OK** in the Ryle syntax box. 
+
+4. Back on the **Rules** tab, under **Filter preview** click **Preview** to validate the filter is working as expected. Click **Next** through the rest of the wizard and **Create** the filter.
+
+5. Repeat steps 1-4 to create another filter for Windows 11 devices. For the rule syntax for Windows 11 devices, use the following rule:
+
+    (device.osVersion -startsWith "10.0.2") and (device.deviceOwnership -eq "Corporate")
+
+#### Create new Settings catalog profiles
+
+**Remove News and Interests (Windows 10)**
+
+1. Go to **Intune.Microsoft.com** > **Devices** > **Configuration Profiles**  
+Click **Create profile**  
+For **Platform** select **Windows 10 and later**  
+For **Profile type** select **Settings catalog**    
+Click **Create**
+
+2. On the Basics tab for **Name** enter **Remove News and Interests (Windows 10)**
+
+3. On the Configuration settings tab click **+ Add settings**
+
+|Setting (Category\Setting name)|What it does|Value
+|---|---|---|
+News and interests\Enable News and interests | This policy setting specifies whether News and interests is allowed on the device. This setting is only applicable to Windows 10 devices and will result in errors if deployed to Windows 11 devices. | Not allowed.
+
+4. Click **Next** until you get to the Assignments tab
+5. On the **Assignments** tab, click **+ Add all devices**
+6. Under groups next to All devices, on the far right click the **Edit filter** link
+7. In the **Filters** flyout, select **Include filter devices in assignment** and select the **All Windows 10 devices** filter and click **Select** at the bottom (very important to click the blue select at the bottom)
+8. Back on the **Assignments** tab, click **Next**, and then **Create**
+
+**Remove Widgets (Windows 11)**
+
+1. Go to **Intune.Microsoft.com** > **Devices** > **Configuration Profiles**  
+Click **Create profile**  
+For **Platform** select **Windows 10 and later**  
+For **Profile type** select **Settings catalog**    
+Click **Create**
+
+2. On the Basics tab for **Name** enter **Remove Widgets (Windows 11)**
+
+3. On the Configuration settings tab click **+ Add settings**
+
+|Setting (Category\Setting name)|What it does|Value
+|---|---|---|
+Widgets\Allow Widgets | This policy setting specifies whether Widgets is allowed on the device. This setting is only applicable to Windows 11 devices and will result in errors if deployed to Windows 10 devices. | Not allowed.
+
+4. Click **Next** until you get to the Assignments tab
+5. On the **Assignments** tab, click **+ Add all devices**
+6. Under groups next to All devices, on the far right click the **Edit filter** link
+7. In the **Filters** flyout, select **Include filter devices in assignment** and select the **All Windows 11 devices** filter and click **Select** at the bottom (very important to click the blue select at the bottom)
+8. Back on the **Assignments** tab, click **Next**, and then **Create**
+
+
+
+
+
+
+
+
+
+
+
 
 ### Optional Device Settings
 
