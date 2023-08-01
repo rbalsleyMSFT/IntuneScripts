@@ -10,6 +10,7 @@ In this guide we'll focus on each type, preferring to use Settings Catalog where
 
 Each profile type will call out if something should be targeted to devices or users (there will be a sub-heading in each section for Device Settings and User Settings)
 
+This guide is not all-inclusive. There will be additional settings that should be added. We invite you to submit an issue or pull request at the top of the page. The more feedback we get from the community, the better we can make this resource. 
 
 # Settings Catalog
 Settings Catalog is the preferred way to set policies/settings within Intune. There is a lot of overlap between what the Settings Catalog can do and other template types. 
@@ -109,9 +110,11 @@ Target the following settings to a user group
 ### Student User Settings
 These settings are primarily targeted to student users to prevent them from being able to install applications via the internet, USB drive, etc. When non-student users (teachers, IT Admins) sign on to student devices, these policies will not be applied (it may take a minute or so for the policy to sync down and remove the student restrictions).
 
-#### Prevent Students from installing apps
+#### Note: Preventing Students from installing apps
 
-This leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser))
+This process leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser))
+
+Using Windows Defender Application Control (WDAC) or Applocker both have their challenges. We've found using Smart Screen and blocking the store as an easy way to solve for this while preserving device usability and manageability. 
 
 |Setting (Category\Setting name)|What it does|Value
 |---|---|---|
@@ -127,9 +130,41 @@ Smart Screen\Enable App Install Control | This policy setting is intended to pre
 Smart Screen\Enable Smart Screen In Shell | Allows IT Admins to configure SmartScreen for Windows | Enabled
 Smart Screen\Prevent Override For Files In Shell | Allows IT Admins to control whether users can ignore SmartScreen warnings and run malicious files. | Enabled
 
+# Endpoint Protection Template
 
+## Device Settings
+Target these settings to a device group
 
+### Bitlocker
 
+Bitlocker can be configured as both an Endpoint Protection Template as well as in Endpoint Security - Disk encryption. For this guide, we're using the Endpoint Protection Template. You can get there by
+
+Go to **Intune.Microsoft.com** > **Devices** > **Configuration Profiles**  
+Click **Create profile**  
+For **Platform** select **Windows 10 and later**  
+For **Profile type** select **Templates**  
+In the drop down list, select **Endpoint Protection**  
+
+|Setting (Category\Setting name)|What it does|Value
+|---|---|---|
+Windows Encryption\Windows Settings\Encrypt devices | Selecting "Require" will enable BitLocker device encryption. Depending on device hardware and Windows version, end users may be asked to confirm there is no third party encryption on their device. Turning on Windows encryption while third party encryption is in use will render the device unstable | Require
+Windows Encryption\BitLocker base settings\Warning for other disk encryption | This setting prompts for any third party disk encryption on end users' machines. Selecting "Block" will disable the warning prompt for other disk encryption, and is required to allow standard users to enable encryption. Selecting "Not configured" will warn the end user that enabling BitLocker while third party encryption is in use will render the device unusable | Block 
+Windows Encryption\BitLocker base settings\Allow standard users to enable encryption during Azure AD Join | Allow users without Administrative rights the ability to enable BitLocker encryption on the local machine. This setting only applies to Azure Active Directory Joined (AADJ) devices. | Allow
+Windows Encryption\BitLocker OS drive settings\Additional authentication at startup | Selecting "Require" allows you to configure the additional authentication requirements at system start up, including utilizing the use of Trusted Platform Module (TPM) or startup PIN requirements | Require
+Windows Encryption\BitLocker OS drive settings\Compatible TPM startup | Configure if TPM is allowed, required or not allowed | Require TPM
+Windows Encryption\BitLocker OS drive settings\Compatible TPM startup PIN | Configure if a TPM start up PIN is allowed, required or not allowed. | Do not allow startup PIN with TPM
+Windows Encryption\BitLocker OS drive settings\Compatible TPM startup key | Configure if a TPM start up key is allowed, required or not allowed | Do not allow startup key with TPM
+Windows Encryption\BitLocker OS drive settings\Compatible TPM startup key and PIN | Configure if a TPM start up key and PIN is allowed, required or not allowed | Do not allow startup key and PIN with TPM
+Windows Encryption\BitLocker OS drive settings\OS drive recovery | Control how BitLocker-protected OS drives are recovered in the absence of the required startup key information. Selecting "Enable" allows you to configure various drive recovery techniques. By selecting "Not configured", the default recovery options are supported including DRA, the end user can specify recovery options and recovery information is not backed up to Azure Active Directory | Enable
+Windows Encryption\BitLocker OS drive settings\Certificate-based data recovery agent | Block the use of data recovery agent with BitLocker-protected OS drives Policy Editor | Block
+Windows Encryption\BitLocker OS drive settings\User creation of recovery password | Configure if users are allowed, required or not allowed to generate a 48-digit recovery password | Allow 48-digit recovery password
+Windows Encryption\BitLocker OS drive settings\User creation recovery key | Configure if users are allowed, required or not allowed to generate a 256-bit recovery key | Allow 256-bit recovery key
+Windows Encryption\BitLocker OS drive settings\Save BitLocker recovery information to Azure Active Directory | Enable BitLocker recovery information to be stored in Azure Active Directory | Enable
+Windows Encryption\BitLocker OS drive settings\BitLocker recovery information stored to Azure Active Directory | Enable BitLocker recovery information to be stored in Azure Active Directory | Backup recovery passwords and key packages
+Windows Encryption\BitLocker OS drive settings\Client-driven recovery password rotation | This setting initiates a client-driven recovery password rotation after an OS drive recovery (either by using bootmgr or WinRE). | Key rotation enabled for Azure AD and Hybrid-joined devices
+Windows Encryption\BitLocker OS drive settings\Store recovery information in Azure Active Directory before enabling BitLocker | Prevent users from enabling BitLocker unless the computer successfully backs up the BitLocker recovery information to Azure Active Directory. Selecting "Require" will ensure the recovery keys are successfully stored in Azure Active Directory before enabling encryption. By selecting "Not configured", a device may become encrypted without recovery information stored in Azure Active Directory. | Require
+Windows Encryption\BitLocker OS drive settings\Pre-boot recovery message and URL | Enable the recovery message and URL that are displayed on the pre-boot key recovery screen. | Enable
+Windows Encryption\BitLocker OS drive settings\Pre-boot recovery message | Configure the option for the pre-boot recovery message. | Use default recovery message and URL
 
 # Custom profile template
 
