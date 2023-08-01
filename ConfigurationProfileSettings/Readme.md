@@ -166,6 +166,28 @@ Windows Encryption\BitLocker OS drive settings\Store recovery information in Azu
 Windows Encryption\BitLocker OS drive settings\Pre-boot recovery message and URL | Enable the recovery message and URL that are displayed on the pre-boot key recovery screen. | Enable
 Windows Encryption\BitLocker OS drive settings\Pre-boot recovery message | Configure the option for the pre-boot recovery message. | Use default recovery message and URL
 
+# Windows Health Monitoring Template
+These settings configure both Windows Update reports in Intune, as well as Endpoint Analytics to collect data about your devices and report on them. 
+
+## Device Settings
+Target these settings to a device group
+
+Go to **Intune.Microsoft.com** > **Devices** > **Configuration Profiles**  
+Click **Create profile**  
+For **Platform** select **Windows 10 and later**  
+For **Profile type** select **Templates**  
+In the drop down list, select **Windows Health Monitoring**
+
+Under basics give the template a name and select Next
+
+|Setting (Category\Setting name)|What it does|Value
+|---|---|---|
+Health Monitoring | Enables event collection from devices running Windows 10 or later | Enable
+Scope | **Windows updates** this must be selected in order for Windows Update Reports in Intune to show any data. Do not confuse this with Windows Update for Business Reports (there are different settings to enable that data to be reported for clients). [Click here for more info](https://learn.microsoft.com/en-us/mem/intune/protect/windows-update-reports) | Check the box
+Scope | **Endpoint analytics** this allows for data to be collected for the Endpoint Analytics service to collect things like boot data and other telemetry to report on the health and performance of your devices. If you enabled Endpoint analytics already, this policy may already be configured. Check to see if you have any Windows Health Monitoring profile templates already configured in your tenant (could be under the name Intune data collection policy) | Check the box
+
+
+
 # Custom profile template
 
 ## Device Settings
@@ -207,10 +229,6 @@ In the **Scope tags** section configure any scope tags and click **Next**
 In the **Assignments** section, select a group of users you want to block admin app access and click **Next**  
 In the **Applicability Rules** section click **Next** or modify if necessary
 In the **Review + create** section, click **Create**
-
-#### Prevent Students from installing apps
-
-This leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser))
 
 
 
