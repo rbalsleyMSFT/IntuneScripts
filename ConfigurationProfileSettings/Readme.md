@@ -276,6 +276,47 @@ Scope | **Endpoint analytics** this allows for data to be collected for the Endp
 
 ## Device Settings
 
+### Skip ESP Account setup phase
+The Enrollment Status Page (ESP) has three phases
+- Device preparation
+- Device setup
+- Account setup
+
+The Device preparation phase enrolls the device in Intune and installs the Intune Management extension which is responsible for installing Win32 apps, remediations, device inventory, and much more.
+
+The Device setup phase applies apps and polices that are targeted to the device.
+
+The Account setup phase does the same as the device setup phase, but for the user.
+
+The Account setup phase can take a very long time to process, increasing the amount of time it takes for a student or end-user to be able to use the device. For profiles that are targeted to users, they generally are applied right on sign in and with minimal delay that the Account setup phase is generally not needed. 
+
+To skip the ESP account setup phase, apply the following custom policy.
+
+Go to **Intune.Microsoft.com** > **Devices** > **Configuration Profiles**  
+Click **Create profile**
+For **Platform** select **Windows 10 and later**  
+For **Profile type** select **Templates**  
+Select **Custom**
+
+**Name:** Skip ESP User Status Page  
+Click **Next**  
+Click **Add**   
+In the **Add Row** pane on the right enter the following:  
+
+
+**Name:** Skip ESP User Status Page
+**OMA-URI:** ./Device/Vendor/MSFT/DMClient/Provider/MS DM Server/FirstSyncStatus/SkipUserStatusPage  
+**Data Type:** Boolean  
+**Value:** True 
+
+Click **Save**  
+Click **Next**  
+In the **Scope tags** section configure any scope tags and click **Next**  
+In the **Assignments** section, select **+ Add all devices** and click **Next**  
+In the **Applicability Rules** section click **Next** or modify if necessary
+In the **Review + create** section, click **Create**
+
+
 ## User Settings
 
 ### Student User Settings
