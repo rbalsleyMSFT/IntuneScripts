@@ -109,10 +109,17 @@ These settings are primarily targeted to student users to prevent them from bein
 
 |Setting (Category\Setting name)|What it does|Value
 |---|---|---|
+Accounts\Allow Adding Non Microsoft Accounts Manually | Specifies whether user is allowed to add non-MSA email accounts. Most restricted value is 0. Note This policy will only block UI/UX-based methods for adding non-Microsoft accounts. Even if this policy is enforced, you can still provision non-MSA accounts using the EMAIL2 CSP. | Block
+Accounts\Allow Microsoft Account Connection | Specifies whether the user is allowed to use an MSA account for non-email related connection authentication and services. Most restricted value is 0. | Block
 Administrative Templates\Windows Components > Attachment Manager\Hide mechanisms to remove zone information (User) | This policy setting allows you to manage whether users can manually remove the zone information from saved file attachments by clicking the Unblock button in the file's property sheet or by using a check box in the security warning dialog. Removing the zone information allows users to open potentially dangerous file attachments that Windows has blocked users from opening. If you enable this policy setting, Windows hides the check box and Unblock button. If you disable this policy setting, Windows shows the check box and Unblock button. If you do not configure this policy setting, Windows hides the check box and Unblock button. | Enabled
 Microsoft App Store\Allow apps from the Microsoft app store to auto update | Specifies whether automatic update of apps from Microsoft Store are allowed. This is necessary to configure if the Microsoft Store is blocked to allow inbox apps to update (Notepad, Calculator, etc) | Allowed
 Microsoft App Store\Require Private Store Only | With the removal of the Store for Business/Education, this policy blocks access to the store. Setting this policy prevents access to the store while allowing the Microsoft New Store App Type to be able to deploy apps via the Winget APIs. | Only Private store is enabled.
+Security\Allow Add Provisioning Package | Specifies whether to allow the runtime configuration agent to install provisioning packages. | Block
+Security\Allow Remove Provisioning Package | Specifies whether to allow the runtime configuration agent to remove provisioning packages. | Block
+Security\Recovery Environment Authentication (User) | This policy controls the requirement of Admin Authentication in RecoveryEnvironment. This should prevent students getting into WinRE and resetting the device | RequireAuthentication: Admin authentication is always required for components in RecoveryEnvironment
 Smart Screen\Enable App Install Control | This policy setting is intended to prevent malicious content from affecting your user's devices when downloading executable content from the internet. | Enable
+Smart Screen\Enable Smart Screen In Shell | Allows IT Admins to configure SmartScreen for Windows | Enabled
+Smart Screen\Prevent Override For Files In Shell | Allows IT Admins to control whether users can ignore SmartScreen warnings and run malicious files. | Enabled
 
 
 
