@@ -1,0 +1,29 @@
+<RuleCollection Type="Exe" EnforcementMode="NotConfigured">
+	<FilePathRule Id="33cc4087-1143-4d09-8a61-707df0bbc06f" Name="Test" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+		<Conditions>
+			<FilePathCondition Path="*" />
+		</Conditions>
+		<Exceptions>
+			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="CMD.EXE">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="POWERSHELL.EXE">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="POWERSHELL_ISE.EXE">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="REG.EXE">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="REGEDIT.EXE">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+		</Exceptions>
+	</FilePathRule>
+	<FilePathRule Id="fd686d83-a829-4351-8ff4-27c7de5755d2" Name="(Default Rule) All files" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow">
+		<Conditions>
+			<FilePathCondition Path="*" />
+		</Conditions>
+	</FilePathRule>
+</RuleCollection>

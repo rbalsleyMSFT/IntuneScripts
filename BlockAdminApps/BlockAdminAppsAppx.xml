@@ -1,0 +1,24 @@
+<RuleCollection Type="Appx" EnforcementMode="NotConfigured">
+	<FilePublisherRule Id="9c877946-3836-4c2e-912b-46bc429e2a20" Name="All Apps Local Admin" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow">
+		<Conditions>
+			<FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+		</Conditions>
+	</FilePublisherRule>
+	<FilePublisherRule Id="499d2e2f-9dc6-4d04-b9e3-ab71c985f569" Name="Block Windows Terminal" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+		<Conditions>
+			<FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+		</Conditions>
+		<Exceptions>
+			<FilePublisherCondition PublisherName="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.WindowsTerminal" BinaryName="*">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+			<FilePublisherCondition PublisherName="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.WindowsTerminalPreview" BinaryName="*">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
+		</Exceptions>
+	</FilePublisherRule>
+</RuleCollection>
