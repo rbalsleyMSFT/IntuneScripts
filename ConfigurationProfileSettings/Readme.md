@@ -332,7 +332,7 @@ Go to **Intune.Microsoft.com** > **Devices** > **Configuration Profiles**
 Click **Create profile**
 For **Platform** select **Windows 10 and later**  
 For **Profile type** select **Templates**  
-Select **Custom**
+Select **Custom** and click **Create**
 
 **Name:** Deny Admin Apps  
 Click **Next**  
@@ -340,16 +340,31 @@ Click **Add**
 In the **Add Row** pane on the right enter the following:  
 
 
-**Name:** Deny Admin apps  
+**Name:** Deny Admin apps EXE 
 **Description:** Block selected Administrative Apps: Cmd, PS, Regedit, or Registry Console Tool.  
 **OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/EXE/Policy  
 **Data Type:** String (XML File)
 
-Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminApps.xml
+Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsEXE.xml
 
-In the Custom XML box, click the **blue folder icon** and select the **BlockAdminApps.xml** file that you downloaded in the step above.  
+In the Custom XML box, click the **blue folder icon** and select the **BlockAdminAppsEXE.xml** file that you downloaded in the step above.  
 
-Click **Save**  
+Click **Save**
+
+Click **Add**   
+In the **Add Row** pane on the right enter the following:  
+
+**Name:** Deny Microsoft Terminal
+**Description:** Deny Microsoft Terminal 
+**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/StoreApps/Policy  
+**Data Type:** String (XML File)
+
+Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsAppx.xml 
+
+In the Custom XML box, click the **blue folder icon** and select the **BlockAdminAppsAppx.xml** file that you downloaded in the step above.  
+
+Click **Save**
+
 Click **Next**  
 In the **Scope tags** section configure any scope tags and click **Next**  
 In the **Assignments** section, select a group of users you want to block admin app access and click **Next**  
