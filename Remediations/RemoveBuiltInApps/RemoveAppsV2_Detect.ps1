@@ -20,6 +20,7 @@ try {
         "Microsoft.BingNews"
         "Microsoft.SurfaceHub"
         "Microsoft.GamingApp"
+        "Microsoft.ZuneVideo"
         )
 
     $ProvisionedStoreApps = (Get-AppXProvisionedPackage -Online).DisplayName
