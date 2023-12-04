@@ -15,6 +15,7 @@ try {
         Exit 1 # Incorrect value is set, remediation needed
     }
 } catch {
-    Write-Host "Registry key or value not found."
-    Exit 1 # Key or value not found, remediation needed
+	$errMsg = $_.Exception.Message
+    	Write-Host $errMsg
+    	exit 1
 }
