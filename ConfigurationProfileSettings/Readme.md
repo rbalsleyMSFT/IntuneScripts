@@ -1,6 +1,6 @@
 # Recommended EDU Device Configuration Settings for Windows 10/11 Devices
 
-Configuring Windows devices in an education environment is challenging due to the different use-cases across the organization. 1 to 1 device configurations are different than shared carts or labs. Students have to be protected from being able to download and running applications that are inappropriate. Shared carts and lab devices need to be configured for specific use cases. 
+Configuring Windows devices in an education environment is challenging due to the different use-cases across the organization. 1 to 1 device configurations are different than shared carts or labs. Students have to be protected from being able to download and running applications that are inappropriate. Shared carts and lab devices need to be configured for specific use cases.
 
 # Goal
 
@@ -46,7 +46,7 @@ When importing the Microsoft EDU device configuration settings from this reposit
 To import these settings, you will need to download the [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) from [Micke-K](https://github.com/Micke-K). This script will allow for easy import of these settings. This tool isn't supported by Microsoft. - [Read the documentation](https://github.com/Micke-K/IntuneManagement#readme) if you have any questions.
 
 1. Download [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) and extract its contents.
-2. Download [MSFT - EDU Recommended Intune Configuration.zip](https://github.com/rbalsleyMSFT/IntuneScripts/raw/main/ConfigurationProfileSettings/MSFT%20-%20EDU%20Recommended%20Intune%20Configuration.zip) and extract its contents
+2. Download [MSFT - EDU Recommended Intune Configuration.zip](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/MSFT%20-%20EDU%20Recommended%20Intune%20Configurationv2.zip) and extract its contents
 3. In the folder that you extracted the IntuneManagement PowerShell script to, double-click the start.cmd file. You may need to Unblock the start.cmd file before running (right-click the start.cmd file, select properties, then click the Unblock check box)
 4. Sign-in with Global Admin or Intune Administrator permissions by clicking on the profile icon in the top right. It will ask you to consent permissions to the Intune Powershell App. Make sure to consent for your account and not on behalf of the tenant.
 5. You may need to close and re-run start.cmd once permissions have been granted
@@ -60,10 +60,9 @@ To import these settings, you will need to download the [IntuneManagement PowerS
 11. For the _MSFT - EDU - Device - Remove Widgets (Windows 11), this removes the Widgets feature in Windows 11. You can either target this to a group of Windows 11 devices, or target it to a group of Windows 10 and Windows 11 devices and use the MSFT - EDU - All Windows 11 Devices filter when targeting.
 12. For the _MSFT - EDU - Device - Remove News and Interests (Windows 10), this removes the News and Interests feature in Windows 10. You can either target this to a group of Windows 10 devices, or target it to a group of Windows 10 and Windows 11 devices and use the MSFT - EDU - All Windows 10 Devices filter when targeting.
 
-
 # Additional items to configure manually
 
-There are some things that cannot be automated via this script that will need to be manually configured by the IT administrator. 
+There are some things that cannot be automated via this script that will need to be manually configured by the IT administrator.
 
 ## _MSFT - EDU - Device - General Configuration Settings (Customize)
 
@@ -79,7 +78,7 @@ Set the UPN suffix of your school email address. This will make it so users don'
 
 These settings leverage Microsoft Connected Cache, a standalone server that can store locally Windows Updates, Microsoft store apps, Intune apps, Office updates, etc. Think of it as an Intune distribution point that stores content within your environment. This can greatly improve the speed at which devices are provisioned since the devices don't have to go across the WAN to find content.
 
-[Microsoft Connected Cache](https://learn.microsoft.com/en-us/windows/deployment/do/mcc-ent-edu-overview) (standalone) )is currently in preview. [Sign up here](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR-xPBiLHqBNHo7fpJB_69upUN0s5WVMzMUpaVFVNTTg1WjNMVldHVk05Qy4u) if you're interested in getting it set up in your environment. 
+[Microsoft Connected Cache](https://learn.microsoft.com/en-us/windows/deployment/do/mcc-ent-edu-overview) (standalone) )is currently in preview. [Sign up here](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR-xPBiLHqBNHo7fpJB_69upUN0s5WVMzMUpaVFVNTTg1WjNMVldHVk05Qy4u) if you're interested in getting it set up in your environment.
 
 If you have Configuration Manager distribution points, you can enable Connected Cache today.
 
@@ -123,9 +122,9 @@ Disable this by going to Devices - Enroll devices - Windows enrollment - Windows
 
 ## Windows Data and Windows Licensing verification
 
-For Remediations to work, you need to enable Windows licensing verification. While doing that, you should also enable Windows Data. Windows Data is needed for Windows feature update device readiness and compatability risk reports as well as Windows driver updates report. 
+For Remediations to work, you need to enable Windows licensing verification. While doing that, you should also enable Windows Data. Windows Data is needed for Windows feature update device readiness and compatability risk reports as well as Windows driver updates report.
 
-Go to **Tenant Administration - Connectors and Tokens - Windows data** and under **Windows data** turn on **Enable features that require Windows diagnostic data in processor configuration**. 
+Go to **Tenant Administration - Connectors and Tokens - Windows data** and under **Windows data** turn on **Enable features that require Windows diagnostic data in processor configuration**.
 
 Under **Windows license verification**, turn on **I confirm that my tenant owns one of these licenses** if you do own one of the licenses in the list
 
