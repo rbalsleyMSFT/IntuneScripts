@@ -1,6 +1,6 @@
 # Recommended EDU Device Configuration Settings for Windows 10/11 Devices
 
-Configuring Windows devices in an education environment is challenging due to the different use-cases across the organization. 1 to 1 device configurations are different than shared carts or labs. Students have to be protected from being able to download and running applications that are inappropriate. Shared carts and lab devices need to be configured for specific use cases.
+Configuring Windows devices in an education environment is challenging due to the different use-cases across the organization. 1 to 1 device configurations are different than shared carts or labs. Students have to be protected from being able to download and run applications that are inappropriate. Shared carts and lab devices need to be configured for specific use cases.
 
 # Goal
 
@@ -15,7 +15,7 @@ These settings are not all-inclusive. There will be additional settings that sho
 
 # Outcome
 
-When importing the Microsoft EDU device configuration settings from this repository, the following items are created. Each item that's imported is prefixed with _MSFT - EDU - *Device/Student* where *Device/Student* is the group that item should be targeted to. Most of these items will be targeted to device groups, while a few will go to student user groups to restrict students from doing certain things (e.g. installing apps that they shouldn't be installing)
+When importing the Microsoft EDU device configuration settings from this repository, the following items are created. Each item that's imported is prefixed with _MSFT - EDU - *Device/Student* where *Device/Student* is the group that item should be targeted to. Most of these items will be targeted to device groups, while a few will go to student user groups to restrict students from doing certain things (e.g. installing apps that they shouldn't be installing).
 
 ## Configuration Profiles
 
@@ -41,6 +41,8 @@ When importing the Microsoft EDU device configuration settings from this reposit
 
 ![1701133444095](image/Readme/1701133444095.png)
 
+For more information about what's in each of these
+
 # Instructions
 
 To import these settings, you will need to download the [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) from [Micke-K](https://github.com/Micke-K). This script will allow for easy import of these settings. This tool isn't supported by Microsoft. - [Read the documentation](https://github.com/Micke-K/IntuneManagement#readme) if you have any questions.
@@ -51,7 +53,7 @@ To import these settings, you will need to download the [IntuneManagement PowerS
 4. Sign-in with Global Admin or Intune Administrator permissions by clicking on the profile icon in the top right. It will ask you to consent permissions to the Intune Powershell App. Make sure to consent for your account and not on behalf of the tenant.
 5. You may need to close and re-run start.cmd once permissions have been granted
 6. After reopening the script (if necessary), click Bulk - Import
-7. In the Bulk Import window, change the Import root to the folder where you extracted the MSFT - EDU Recommended Intune Configuration.zip file. Make sure to also uncheck th Assign Scope (Tags) and Import Assignments check boxes. Your Bulk Import window should look like the following
+7. In the Bulk Import window, change the Import root to the folder where you extracted the MSFT - EDU Recommended Intune Configuration.zip file. Make sure to also uncheck the Assign Scope (Tags) and Import Assignments check boxes. Your Bulk Import window should look like the following
 
    ![1701132998774](image/Readme/1701132998774.png)
 8. Click Import
@@ -78,9 +80,9 @@ Set the UPN suffix of your school email address. This will make it so users don'
 
 These settings leverage Microsoft Connected Cache, a standalone server that can store locally Windows Updates, Microsoft store apps, Intune apps, Office updates, etc. Think of it as an Intune distribution point that stores content within your environment. This can greatly improve the speed at which devices are provisioned since the devices don't have to go across the WAN to find content.
 
-[Microsoft Connected Cache](https://learn.microsoft.com/en-us/windows/deployment/do/mcc-ent-edu-overview) (standalone) )is currently in preview. [Sign up here](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR-xPBiLHqBNHo7fpJB_69upUN0s5WVMzMUpaVFVNTTg1WjNMVldHVk05Qy4u) if you're interested in getting it set up in your environment.
+[Microsoft Connected Cache](https://learn.microsoft.com/en-us/windows/deployment/do/mcc-ent-edu-overview) (standalone) is currently in preview. [Sign up here](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR-xPBiLHqBNHo7fpJB_69upUN0s5WVMzMUpaVFVNTTg1WjNMVldHVk05Qy4u) if you're interested in getting it set up in your environment.
 
-If you have Configuration Manager distribution points, you can enable Connected Cache today.
+If you have Configuration Manager distribution points, you can enable Connected Cache today. Go to your Configuration Manager console and under **Administration** select **Distribution Points**. **Right click** the **Distribution Point** you want to enable Microsoft Connected Cache on and select **Properties**. Check the **Enable this distribution point to be used as a Microsoft Connected Cache server** box. 
 
 Once setup, you'll want to adjust the DO Cache Host field to either be the FQDN of the Connected Cache server you set up, or the IP address.
 
@@ -117,6 +119,8 @@ Go to **Devices - Feature updates for Windows 10 and later** and create a featur
 If you're in K12 and have students who don't have MFA (lack of cell phone), then you'll want to disable Windows Hello for Business. When setting up Windows for the first time, Hello for Business will prompt for MFA.
 
 Disable this by going to Devices - Enroll devices - Windows enrollment - Windows Hello for Business and for Configure Windows Hello for Business, select Disabled.
+
+For new EDU tenants, this is disabled by default. It's best to double check this, however. 
 
 ![1701135065609](image/Readme/1701135065609.png)
 
