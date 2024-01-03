@@ -4,9 +4,9 @@
 
 ### Settings Catalog
 
-#### _MSFT - EDU - Device - General Configuration Settings
+### _MSFT - EDU - Device - General Configuration Settings
 
-##### Authentication
+### **Authentication**
 
 | Setting (Category\Setting name)         | What it does                                                 | Value |
 | --------------------------------------- | ------------------------------------------------------------ | ----- |
