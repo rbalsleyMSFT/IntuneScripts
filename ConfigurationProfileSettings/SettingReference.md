@@ -103,7 +103,7 @@ These settings are needed for [Windows Update for Business reports](https://lear
 | Setting (Category\Setting name)                                | What it does                                                                                                                                                                                                                                                                   | Value                                  |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
 | System\Allow device name to be sent in Windows diagnostic data | This policy allows the device name to be sent to Microsoft as part of Windows diagnostic data.                                                                                                                                                                                 | Allowed                                |
-| System\Allow Telemetry                                         | Required (Basic) is required to be set in order for WUfB Reports to show data. [Learn more](https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization#diagnostic-data-settings) about the different levels of telemetry.          | Basic                                  |
+| System\Allow Telemetry                                         | Required (Basic) is required to be set in order for WUfB Reports to show data.[Learn more](https://learn.microsoft.com/en-us/windows/privacy/configure-windows-diagnostic-data-in-your-organization#diagnostic-data-settings) about the different levels of telemetry.            | Basic                                  |
 | System\Configure Telemetry Opt In Change Notification          | Disables user notifications that appear for changes to the diagnostic data level.                                                                                                                                                                                              | Disable telemetry change notifications |
 | System\Configure Telemetry Opt In Settings Ux                  | Determines whether users of the device can adjust diagnostic data to levels lower than you define by the*AllowTelemetry* policy. Set the recommended value to disable opt-in settings, or users can change the effective diagnostic data level that might not be sufficient. | Disable Telemetry opt-in Settings.     |
 
@@ -171,11 +171,20 @@ These settings are needed for [Windows Update for Business reports](https://lear
 
 ### _MSFT - EDU - Device - Security Configuration (HVCI) (Optional)
 
+Configures Memory Integrity also known as Hypervisor-protected code integrity (HVCI). This is enabled by default on new installs of Windows 11 22H2+ on Intel 8th gen and AMD Zen 2 or later processors. Deploying this will configure it for machines that were not newly installed with Windows 11 22H2+. This will fix the warning about Memory Integrity not being configured in Windows Security center.
+
+
+```
+> [!NOTE]
+> Memory integrity works better with Intel Kabylake and higher processors with *Mode-Based Execution Control*, and AMD Zen 2 and higher processors with *Guest Mode Execute Trap* capabilities. Older processors rely on an emulation of these features, called *Restricted User Mode*, and will have a bigger impact on performance.
+```
+
+
+Some applications and hardware device drivers may be incompatible with memory integrity. 
 
 _MSFT - EDU - Device - Shared Cart/Lab (SharedPC)
 
 _MSFT - EDU - Student - General Restrictions
-
 
 ### Windows Health Monitoring
 

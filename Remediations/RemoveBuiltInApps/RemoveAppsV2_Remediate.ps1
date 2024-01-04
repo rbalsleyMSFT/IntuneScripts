@@ -21,6 +21,8 @@ try {
         "Microsoft.SurfaceHub"
         "Microsoft.GamingApp"
         "Microsoft.ZuneVideo"
+	"Microsoft.OutlookForWindows"
+	"Microsoft.549981C3F5F10"
         )
 
     $ProvisionedStoreApps = (Get-AppXProvisionedPackage -Online).DisplayName
