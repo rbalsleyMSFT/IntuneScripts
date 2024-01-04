@@ -173,11 +173,8 @@ These settings are needed for [Windows Update for Business reports](https://lear
 
 Configures Memory Integrity also known as Hypervisor-protected code integrity (HVCI). This is enabled by default on new installs of Windows 11 22H2+ on Intel 8th gen and AMD Zen 2 or later processors. Deploying this will configure it for machines that were not newly installed with Windows 11 22H2+. This will fix the warning about Memory Integrity not being configured in Windows Security center.
 
-
-```
-> [!NOTE]
-> Memory integrity works better with Intel Kabylake and higher processors with *Mode-Based Execution Control*, and AMD Zen 2 and higher processors with *Guest Mode Execute Trap* capabilities. Older processors rely on an emulation of these features, called *Restricted User Mode*, and will have a bigger impact on performance.
-```
+[!NOTE]
+Memory integrity works better with Intel Kabylake and higher processors with *Mode-Based Execution Control*, and AMD Zen 2 and higher processors with *Guest Mode Execute Trap* capabilities. Older processors rely on an emulation of these features, called *Restricted User Mode*, and will have a bigger impact on performance.
 
 
 Some applications and hardware device drivers may be incompatible with memory integrity. 
