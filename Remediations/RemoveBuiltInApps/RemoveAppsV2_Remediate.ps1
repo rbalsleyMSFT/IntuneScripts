@@ -23,6 +23,7 @@ try {
         "Microsoft.ZuneVideo"
 	"Microsoft.OutlookForWindows"
 	"Microsoft.549981C3F5F10"
+	"Microsoft.Windows.DevHome"
         )
 
     $ProvisionedStoreApps = (Get-AppXProvisionedPackage -Online).DisplayName

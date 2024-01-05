@@ -17,6 +17,8 @@ These settings are not all-inclusive. There will be additional settings that sho
 
 When importing the Microsoft EDU device configuration settings from this repository, the following items are created. Each item that's imported is prefixed with _MSFT - EDU - *Device/Student* where *Device/Student* is the group that item should be targeted to. Most of these items will be targeted to device groups, while a few will go to student user groups to restrict students from doing certain things (e.g. installing apps that they shouldn't be installing).
 
+Below you will find a screenshot of each configuration type that is imported. If you want a detailed list of what policies are included in each item, please refer to the [settings reference](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md). 
+
 ## Configuration Profiles
 
 ![1701131182054](image/Readme/1701131182054.png)
@@ -40,8 +42,6 @@ When importing the Microsoft EDU device configuration settings from this reposit
 ## Autopilot Profiles
 
 ![1701133444095](image/Readme/1701133444095.png)
-
-For more information about what's in each of these
 
 # Instructions
 
@@ -82,7 +82,7 @@ These settings leverage Microsoft Connected Cache, a standalone server that can 
 
 [Microsoft Connected Cache](https://learn.microsoft.com/en-us/windows/deployment/do/mcc-ent-edu-overview) (standalone) is currently in preview. [Sign up here](https://forms.office.com/Pages/ResponsePage.aspx?id=v4j5cvGGr0GRqy180BHbR-xPBiLHqBNHo7fpJB_69upUN0s5WVMzMUpaVFVNTTg1WjNMVldHVk05Qy4u) if you're interested in getting it set up in your environment.
 
-If you have Configuration Manager distribution points, you can enable Connected Cache today. Go to your Configuration Manager console and under **Administration** select **Distribution Points**. **Right click** the **Distribution Point** you want to enable Microsoft Connected Cache on and select **Properties**. Check the **Enable this distribution point to be used as a Microsoft Connected Cache server** box. 
+If you have Configuration Manager distribution points, you can enable Connected Cache today. Go to your Configuration Manager console and under **Administration** select **Distribution Points**. **Right click** the **Distribution Point** you want to enable Microsoft Connected Cache on and select **Properties**. Check the **Enable this distribution point to be used as a Microsoft Connected Cache server** box.
 
 Once setup, you'll want to adjust the DO Cache Host field to either be the FQDN of the Connected Cache server you set up, or the IP address.
 
@@ -120,7 +120,7 @@ If you're in K12 and have students who don't have MFA (lack of cell phone), then
 
 Disable this by going to Devices - Enroll devices - Windows enrollment - Windows Hello for Business and for Configure Windows Hello for Business, select Disabled.
 
-For new EDU tenants, this is disabled by default. It's best to double check this, however. 
+For new EDU tenants, this is disabled by default. It's best to double check this, however.
 
 ![1701135065609](image/Readme/1701135065609.png)
 

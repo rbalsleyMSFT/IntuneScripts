@@ -23,6 +23,7 @@ try {
         "Microsoft.ZuneVideo"
 	"Microsoft.OutlookForWindows"
 	"Microsoft.549981C3F5F10"
+	"Microsoft.Windows.DevHome"
         )
 
     $ProvisionedStoreApps = (Get-AppXProvisionedPackage -Online).DisplayName
@@ -32,11 +33,9 @@ try {
            Write-Host "$ProvisionedAppName detected and should be removed. Exiting script."
            exit 1
         }
-	else{
-	   Write-Host 'No provisioned apps found'
-	   exit 0
-	}
     }
+    Write-Host "No provisioned apps detected"
+    exit 0
 }
 catch {
     $errMsg = $_.Exception.Message
