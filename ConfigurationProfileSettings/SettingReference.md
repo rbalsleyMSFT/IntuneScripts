@@ -299,3 +299,57 @@ These settings configure both Windows Update reports in Intune, as well as Endpo
 | Scope                           | **Endpoint analytics** this allows for data to be collected for the Endpoint Analytics service to collect things like boot data and other telemetry to report on the health and performance of your devices. If you enabled Endpoint analytics already, this policy may already be configured. Check to see if you have any Windows Health Monitoring profile templates already configured in your tenant (could be under the name Intune data collection policy) | Check the box |
 
 ### Custom
+
+The following custom policies are imported
+
+- _MSFT - EDU - Device - Shared Cart/Lab Enable OneDrive for Business
+- _MSFT - EDU - Device - Skip ESP User Status Page
+- _MSFT - EDU - Student - Deny Admin Apps
+
+### _MSFT - EDU - Device - Shared Cart/Lab Enable OneDrive for Business
+
+In Windows 11 22H2 SharedPC CSP was modified to allow for OneDrive for Business sync. Intune has yet to add this to the Shared PC settings, so for now this must be set via a custom OMA-URI setting. If you wish for your shared devices to have the ability to sync with OneDrive, you'll want to add this setting.
+
+**Name:** Enable ODfB SharedPC
+**OMA-URI:** ./Vendor/MSFT/SharedPC/EnableSharedPCModeWithOneDriveSync
+**Data Type:** Boolean
+**Value:** True
+
+### _MSFT - EDU - Device - Skip ESP User Status Page
+
+The Enrollment Status Page (ESP) has three phases
+
+- Device preparation
+- Device setup
+- Account setup
+
+The Device preparation phase enrolls the device in Intune and installs the Intune Management extension which is responsible for installing Win32 apps, remediations, device inventory, and much more.
+
+The Device setup phase applies apps and polices that are targeted to the device.
+
+The Account setup phase does the same as the device setup phase, but for the user.
+
+The Account setup phase can take a very long time to process, increasing the amount of time it takes for a student or end-user to be able to use the device. For profiles that are targeted to users, they generally are applied right on sign in and with minimal delay that the Account setup phase is generally not needed.
+
+**Name:** Skip ESP User Status Page
+**OMA-URI:** ./Device/Vendor/MSFT/DMClient/Provider/MS DM Server/FirstSyncStatus/SkipUserStatusPage
+**Data Type:** Boolean
+**Value:** True
+
+### _MSFT - EDU - Student - Deny Admin Apps
+
+The following settings are primarily focused on student users to prevent them from being able to run administrative apps: cmd, powershell, reg, regedit, and terminal.
+
+**Name:** Deny Admin apps EXE
+**Description:** Block selected Administrative Apps: Cmd, PS, Regedit, or Registry Console Tool.
+**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/EXE/Policy
+**Data Type:** String (XML File)
+
+Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsEXE.xml
+
+**Name:** Deny Microsoft Terminal
+**Description:** Deny Microsoft Terminal
+**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/StoreApps/Policy
+**Data Type:** String (XML File)
+
+Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsAppx.xml
