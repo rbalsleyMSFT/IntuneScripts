@@ -6,7 +6,7 @@
 
 ### _MSFT - EDU - Device - General Configuration Settings
 
-### **Authentication**
+### Authentication
 
 | Setting (Category\Setting name)         | What it does                                                 | Value |
 | --------------------------------------- | ------------------------------------------------------------ | ----- |
@@ -173,15 +173,100 @@ These settings are needed for [Windows Update for Business reports](https://lear
 
 Configures Memory Integrity also known as Hypervisor-protected code integrity (HVCI). This is enabled by default on new installs of Windows 11 22H2+ on Intel 8th gen and AMD Zen 2 or later processors. Deploying this will configure it for machines that were not newly installed with Windows 11 22H2+. This will fix the warning about Memory Integrity not being configured in Windows Security center.
 
-[!NOTE]
 Memory integrity works better with Intel Kabylake and higher processors with *Mode-Based Execution Control*, and AMD Zen 2 and higher processors with *Guest Mode Execute Trap* capabilities. Older processors rely on an emulation of these features, called *Restricted User Mode*, and will have a bigger impact on performance.
 
+Some applications and hardware device drivers may be incompatible with memory integrity. This incompatibility can cause devices or software to malfunction and in rare cases may result in a boot failure (blue screen). Such issues may occur after memory integrity has been turned on or during the enablement process itself. If compatibility issues occur, see [Troubleshooting](https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity#troubleshooting) for remediation steps.
 
-Some applications and hardware device drivers may be incompatible with memory integrity. 
+This configuration profile also configures System Guard Secure Launch which defends against firmware attacks. More info about System Guard Secure Launch can be found [here](https://learn.microsoft.com/en-us/windows/security/hardware-security/how-hardware-based-root-of-trust-helps-protect-windows).
 
-_MSFT - EDU - Device - Shared Cart/Lab (SharedPC)
+Configuring both of these settings plus Bitlocker allows for the device to be configured as a [Secured-Core PC.](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure-11)
 
-_MSFT - EDU - Student - General Restrictions
+We mark this configuration profile as optional due to the hardware requirements for memory integrity. Please test this configuration on a group of devices before deploying to production. While this allows for an increased security state of the device, potential performance and driver/application compatibility issues could arise. 
+
+### Device Guard
+
+| Setting (Category\Setting name)            | What it does                                                                                                                                                        | Value                                                    |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Device Guard\Configure System Guard Launch | Configures[Windows Defender System Guard](https://learn.microsoft.com/en-us/windows/security/hardware-security/how-hardware-based-root-of-trust-helps-protect-windows) | Unmanaged Enables Secure Launch if supported by hardware |
+
+### Virtualization Based Technology
+
+| Setting (Category\Setting name)                                    | What it does                                                                                                                                             | Value                                                                                  |
+| ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Virtualization Based Technology\Hypervisor Enforced Code Integrity | Configures[Memory integrity](https://learn.microsoft.com/en-us/windows/security/hardware-security/enable-virtualization-based-protection-of-code-integrity) | (Enabled without lock) Turns on Hypervisor-Protected Code Integrity without UEFI lock. |
+
+### _MSFT - EDU - Device - Shared Cart/Lab (SharedPC)
+
+For shared device scenarios (Carts and Labs) we recommend using SharedPC. SharedPC will provide the optimal settings for an EDU shared configuration, allowing the device to clean up stale user profiles, configure power policy settings to allow the device to wake up and allow Windows Update to install updates outside of class time, and improved performance and enhanced privacy for users.
+
+For more information, check out the [Shared PC technical reference](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical) for a list of the local policies Shared PC configures.
+
+Note that if you want to use OneDrive for Business, a custom policy needs to be configured outside of the Settings catalog. The current SharedPC configuration in the Intune UI doesn't have the OneDrive for Business sync policy available yet. 
+
+### Shared PC
+
+| Setting (Category\Setting name)  | What it does                                                                                                                                                                                         | Value                                                 |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Shared PC\Account Model          | Configures which type of accounts are allowed to use the PC.                                                                                                                                         | Guest and Domain                                      |
+| Shared PC\Deletion Policy        | Configures when accounts will be deleted.                                                                                                                                                            | Delete at disk space threshold and inactive threshold |
+| Shared PC\Disk Level Caching     | Stop deleting accounts when available disk space reaches this threshold, given as percent of total disk capacity.                                                                                    | 50                                                    |
+| Shared PC\Disk Level Deletion    | Accounts will start being deleted when available disk space falls below this threshold, given as percent of total disk capacity. Accounts that have been inactive the longest will be deleted first. | 25                                                    |
+| Shared PC\Enable Account Manager | Enable the account manager for shared PC mode (this enables the removal of stale user profiles)                                                                                                      | true                                                  |
+| Shared PC\Enable Shared PC Mode  | Setting this node to "true" triggers the action to configure a device to Shared PC mode.                                                                                                             | true                                                  |
+| Shared PC\Inactive Threshold     | Accounts will start being deleted when they have not been logged on during the specified period, given as number of days                                                                             | 90                                                    |
+| Shared PC\Maintenance Start Time | Daily start time of maintenance hour. Given in minutes from midnight. Default is 0 (12am).                                                                                                           | 0                                                     |
+| Shared PC\Restrict Local Storage | Restricts the user from using local storage.                                                                                                                                                         | true                                                  |
+| Shared PC\Set Edu Policies       | Configures[the following local GPO settings](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical#setedupolicy)                                                                  | true                                                  |
+| Shared PC\Set Power Policies     | Configures [the following power settings via local GPO](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical#setpowerpolicies)                                                  | true                                                  |
+| Shared PC\Sign In On Resume      | Require signing in on waking up from sleep.                                                                                                                                                          | false                                                 |
+
+### _MSFT - EDU - Student - General Restrictions
+
+**Student User Settings**
+
+These settings are primarily targeted to student users to prevent them from being able to install applications via the internet, USB drive, etc. When non-student users (teachers, IT Admins) sign on to student devices, these policies will not be applied (it may take a minute or so for the policy to sync down and remove the student restrictions).
+
+**Note: Preventing Students from installing apps**
+
+This process leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser))
+
+Using Windows Defender Application Control (WDAC) or Applocker both have their challenges. We've found using Smart Screen and blocking the store as an easy way to solve for this while preserving device usability and manageability.
+
+### Accounts
+
+| Setting (Category\Setting name)                       | What it does                                                                                                                                                                                                                                                                         | Value |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
+| Accounts\Allow Adding Non Microsoft Accounts Manually | Specifies whether user is allowed to add non-MSA email accounts. Most restricted value is 0. Note This policy will only block UI/UX-based methods for adding non-Microsoft accounts. Even if this policy is enforced, you can still provision non-MSA accounts using the EMAIL2 CSP. | Block |
+| Accounts\Allow Microsoft Account Connection           | Specifies whether the user is allowed to use an MSA account for non-email related connection authentication and services. Most restricted value is 0.                                                                                                                                | Block |
+
+### Administrative Templates\Windows Components
+
+| Setting (Category\Setting name)                                                                                    | What it does                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Value   |
+| ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| Administrative Templates\Windows Components > Store\Turn off the Store application (User)                          | Denies or allows access to the Store application. If you enable this setting, access to the Store application is denied. Access to the Store is required for installing app updates. If you disable or don't configure this setting, access to the Store application is allowed.                                                                                                                                                                                                                                                                                                                                                                           | Enabled |
+| Administrative Templates\Windows Components > Attachment Manager\Hide mechanisms to remove zone information (User) | This policy setting allows you to manage whether users can manually remove the zone information from saved file attachments by clicking the Unblock button in the file's property sheet or by using a check box in the security warning dialog. Removing the zone information allows users to open potentially dangerous file attachments that Windows has blocked users from opening. If you enable this policy setting, Windows hides the check box and Unblock button. If you disable this policy setting, Windows shows the check box and Unblock button. If you do not configure this policy setting, Windows hides the check box and Unblock button. | Enabled |
+
+### Microsoft App Store
+
+| Setting (Category\Setting name)                                            | What it does                                                                                                                                                                                           | Value   |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| Microsoft App Store\Allow apps from the Microsoft app store to auto update | Specifies whether automatic update of apps from Microsoft Store are allowed. This is necessary to configure if the Microsoft Store is blocked to allow inbox apps to update (Notepad, Calculator, etc) | Enabled |
+
+### Security
+
+| Setting (Category\Setting name)                     | What it does                                                                                                                                                  | Value                                                                                                |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Security\Allow Add Provisioning Package             | Specifies whether to allow the runtime configuration agent to install provisioning packages.                                                                  | Block                                                                                                |
+| Security\Allow Remove Provisioning Package          | Specifies whether to allow the runtime configuration agent to remove provisioning packages.                                                                   | Block                                                                                                |
+| Security\Recovery Environment Authentication (User) | This policy controls the requirement of Admin Authentication in RecoveryEnvironment. This should prevent students getting into WinRE and resetting the device | RequireAuthentication: Admin authentication is always required for components in RecoveryEnvironment |
+
+### Smart Screen
+
+| Setting (Category\Setting name)                  | What it does                                                                                                                                           | Value   |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| Smart Screen\Enable App Install Control          | This policy setting is intended to prevent malicious content from affecting your user's devices when downloading executable content from the internet. | Enable  |
+| Smart Screen\Enable Smart Screen In Shell        | Allows IT Admins to configure SmartScreen for Windows                                                                                                  | Enabled |
+| Smart Screen\Prevent Override For Files In Shell | Allows IT Admins to control whether users can ignore SmartScreen warnings and run malicious files.                                                     | Enabled |
 
 ### Windows Health Monitoring
 
