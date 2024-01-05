@@ -302,7 +302,7 @@ These settings configure both Windows Update reports in Intune, as well as Endpo
 
 The following custom policies are imported
 
-- _MSFT - EDU - Device - Shared Cart/Lab Enable OneDrive for Business
+- [_MSFT - EDU - Device - Shared Cart/Lab Enable OneDrive for Business](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---shared-cartlab-enable-onedrive-for-business)
 - _MSFT - EDU - Device - Skip ESP User Status Page
 - _MSFT - EDU - Student - Deny Admin Apps
 
@@ -311,6 +311,8 @@ The following custom policies are imported
 In Windows 11 22H2 SharedPC CSP was modified to allow for OneDrive for Business sync. Intune has yet to add this to the Shared PC settings, so for now this must be set via a custom OMA-URI setting. If you wish for your shared devices to have the ability to sync with OneDrive, you'll want to add this setting.
 
 **Name:** Enable ODfB SharedPC
+
+
 **OMA-URI:** ./Vendor/MSFT/SharedPC/EnableSharedPCModeWithOneDriveSync
 **Data Type:** Boolean
 **Value:** True
