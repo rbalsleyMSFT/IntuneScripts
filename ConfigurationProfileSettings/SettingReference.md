@@ -1,6 +1,6 @@
 # EDU Device Configuration Settings Reference
 
-The following guide serves as the settings reference for the Recommended EDU Device configuration settings for Windows 10/11 devices. 
+The following guide serves as the settings reference for the Recommended EDU Device configuration settings for Windows 10/11 devices.
 
 ## Configuration Profiles
 
@@ -201,7 +201,7 @@ This configuration profile also configures System Guard Secure Launch which defe
 
 Configuring both of these settings plus Bitlocker allows for the device to be configured as a [Secured-Core PC.](https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure-11)
 
-We mark this configuration profile as optional due to the hardware requirements for memory integrity. Please test this configuration on a group of devices before deploying to production. While this allows for an increased security state of the device, potential performance and driver/application compatibility issues could arise. 
+We mark this configuration profile as optional due to the hardware requirements for memory integrity. Please test this configuration on a group of devices before deploying to production. While this allows for an increased security state of the device, potential performance and driver/application compatibility issues could arise.
 
 ### Device Guard
 
@@ -221,7 +221,7 @@ For shared device scenarios (Carts and Labs) we recommend using SharedPC. Shared
 
 For more information, check out the [Shared PC technical reference](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical) for a list of the local policies Shared PC configures.
 
-Note that if you want to use OneDrive for Business, a custom policy needs to be configured outside of the Settings catalog. The current SharedPC configuration in the Intune UI doesn't have the OneDrive for Business sync policy available yet. 
+Note that if you want to use OneDrive for Business, a custom policy needs to be configured outside of the Settings catalog. The current SharedPC configuration in the Intune UI doesn't have the OneDrive for Business sync policy available yet.
 
 ### Shared PC
 
@@ -237,7 +237,7 @@ Note that if you want to use OneDrive for Business, a custom policy needs to be 
 | Shared PC\Maintenance Start Time | Daily start time of maintenance hour. Given in minutes from midnight. Default is 0 (12am).                                                                                                           | 0                                                     |
 | Shared PC\Restrict Local Storage | Restricts the user from using local storage.                                                                                                                                                         | true                                                  |
 | Shared PC\Set Edu Policies       | Configures[the following local GPO settings](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical#setedupolicy)                                                                  | true                                                  |
-| Shared PC\Set Power Policies     | Configures [the following power settings via local GPO](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical#setpowerpolicies)                                                  | true                                                  |
+| Shared PC\Set Power Policies     | Configures[the following power settings via local GPO](https://learn.microsoft.com/en-us/windows/configuration/shared-pc-technical#setpowerpolicies)                                                    | true                                                  |
 | Shared PC\Sign In On Resume      | Require signing in on waking up from sleep.                                                                                                                                                          | false                                                 |
 
 ### _MSFT - EDU - Student - General Restrictions
@@ -303,17 +303,17 @@ These settings configure both Windows Update reports in Intune, as well as Endpo
 The following custom policies are imported
 
 - [_MSFT - EDU - Device - Shared Cart/Lab Enable OneDrive for Business](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---shared-cartlab-enable-onedrive-for-business)
-- _MSFT - EDU - Device - Skip ESP User Status Page
-- _MSFT - EDU - Student - Deny Admin Apps
+- [_MSFT - EDU - Device - Skip ESP User Status Page](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---skip-esp-user-status-page)
+- [_MSFT - EDU - Student - Deny Admin Apps](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---student---deny-admin-apps)
 
 ### _MSFT - EDU - Device - Shared Cart/Lab Enable OneDrive for Business
 
 In Windows 11 22H2 SharedPC CSP was modified to allow for OneDrive for Business sync. Intune has yet to add this to the Shared PC settings, so for now this must be set via a custom OMA-URI setting. If you wish for your shared devices to have the ability to sync with OneDrive, you'll want to add this setting.
 
-**Name:** Enable ODfB SharedPC  
-**OMA-URI:** ./Vendor/MSFT/SharedPC/EnableSharedPCModeWithOneDriveSync  
-**Data Type:** Boolean  
-**Value:** True  
+**Name:** Enable ODfB SharedPC
+**OMA-URI:** ./Vendor/MSFT/SharedPC/EnableSharedPCModeWithOneDriveSync
+**Data Type:** Boolean
+**Value:** True
 
 ### _MSFT - EDU - Device - Skip ESP User Status Page
 
@@ -331,25 +331,25 @@ The Account setup phase does the same as the device setup phase, but for the use
 
 The Account setup phase can take a very long time to process, increasing the amount of time it takes for a student or end-user to be able to use the device. For profiles that are targeted to users, they generally are applied right on sign in and with minimal delay that the Account setup phase is generally not needed.
 
-**Name:** Skip ESP User Status Page  
-**OMA-URI:** ./Device/Vendor/MSFT/DMClient/Provider/MS DM Server/FirstSyncStatus/SkipUserStatusPage  
-**Data Type:** Boolean  
-**Value:** True  
+**Name:** Skip ESP User Status Page
+**OMA-URI:** ./Device/Vendor/MSFT/DMClient/Provider/MS DM Server/FirstSyncStatus/SkipUserStatusPage
+**Data Type:** Boolean
+**Value:** True
 
 ### _MSFT - EDU - Student - Deny Admin Apps
 
 The following settings are primarily focused on student users to prevent them from being able to run administrative apps: cmd, powershell, reg, regedit, and terminal.
 
-**Name:** Deny Admin apps EXE  
-**Description:** Block selected Administrative Apps: Cmd, PS, Regedit, or Registry Console Tool.  
-**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/EXE/Policy  
-**Data Type:** String (XML File)  
+**Name:** Deny Admin apps EXE
+**Description:** Block selected Administrative Apps: Cmd, PS, Regedit, or Registry Console Tool.
+**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/EXE/Policy
+**Data Type:** String (XML File)
 
 Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsEXE.xml
 
-**Name:** Deny Microsoft Terminal  
-**Description:** Deny Microsoft Terminal  
-**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/StoreApps/Policy  
-**Data Type:** String (XML File)  
+**Name:** Deny Microsoft Terminal
+**Description:** Deny Microsoft Terminal
+**OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/StoreApps/Policy
+**Data Type:** String (XML File)
 
 Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsAppx.xml
