@@ -1,8 +1,28 @@
 # EDU Device Configuration Settings Reference
 
+The following guide serves as the settings reference for the Recommended EDU Device configuration settings for Windows 10/11 devices. 
+
 ## Configuration Profiles
 
+The following configuration profile types are used
+
+- Settings Catalog
+- Windows health monitoring
+- Custom
+
+While software updates are also listed in configuration profiles, those will be documented under the Update Rings section.
+
 ### Settings Catalog
+
+The following settings catalog policies are imported. Please click on any of these to go directly to the documentation of what's in each of these policies.
+
+- [_MSFT - EDU - Device - General Configuration Settings](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---general-configuration-settings)
+- [_MSFT - EDU - Device - General Configuration Settings (Customize)](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---general-configuration-settings-customize)
+- [_MSFT - EDU - Device - Remove News and Interests (Windows 10)](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---remove-news-and-interests-windows-10)
+- [_MSFT - EDU - Device - Remove Widgets (Windows 11)](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---remove-widgets-windows-11)
+- [_MSFT - EDU - Device - Security Configuration (HVCI) (Optional)](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---security-configuration-hvci-optional)
+- [_MSFT - EDU - Device - Shared Cart/Lab (SharedPC)](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---shared-cartlab-sharedpc)
+- [_MSFT - EDU - Student - General Restrictions](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---student---general-restrictions)
 
 ### _MSFT - EDU - Device - General Configuration Settings
 
@@ -224,11 +244,11 @@ Note that if you want to use OneDrive for Business, a custom policy needs to be 
 
 **Student User Settings**
 
-These settings are primarily targeted to student users to prevent them from being able to install applications via the internet, USB drive, etc. When non-student users (teachers, IT Admins) sign on to student devices, these policies will not be applied (it may take a minute or so for the policy to sync down and remove the student restrictions).
+These settings are primarily targeted to student users to prevent them from being able to install applications via the internet, USB drive, etc. When non-student users (teachers, IT Admins) sign on to student devices, these policies will not be applied (it may take a minute or so for the policy to sync down and remove the student restrictions after signing in).
 
 **Note: Preventing Students from installing apps**
 
-This process leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser))
+This process leverages Smart Screen and the Windows Store app to funnel application installs to the Store, however the Store will be blocked, preventing the user from being able to install apps. All self-service application installs should go through the Company Portal. Students will be able to use the Company Portal app to install applications you've made available to them via Intune (assuming you don't have any [primary user issues](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/ChangeIntunePrimaryUser)).
 
 Using Windows Defender Application Control (WDAC) or Applocker both have their challenges. We've found using Smart Screen and blocking the store as an easy way to solve for this while preserving device usability and manageability.
 
