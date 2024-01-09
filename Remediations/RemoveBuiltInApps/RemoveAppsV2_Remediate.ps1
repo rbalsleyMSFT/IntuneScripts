@@ -1,3 +1,15 @@
+$LogFile = 'C:\Windows\temp\Apps.txt'
+function WriteLog($LogText) {
+    #Check if log file exists and if it does, check if the file size is larger than 1MB. If it is, delete it. 
+    if (Test-Path $LogFile) {
+        $FileSize = (Get-Item $LogFile).length
+        if ($FileSize -gt 1MB) {
+            Remove-Item $LogFile -Force
+        }
+    }
+    Add-Content -path $LogFile -value "$((Get-Date).ToString()) $LogText" -Force -ErrorAction SilentlyContinue
+    Write-Verbose $LogText
+}
 try {
     #If you need to add additional apps to this list, get the Provisioned App Display name by running (Get-AppXProvisionedPackage -Online).DisplayName via Powershell
     #Minecraft requires the XboxGame(ing)overlay apps in order to take screenshots. If removed, you will get an error when opening Minecraft. Minecraft still works, but the error might be annoying for end users.
@@ -21,18 +33,22 @@ try {
         "Microsoft.SurfaceHub"
         "Microsoft.GamingApp"
         "Microsoft.ZuneVideo"
-	"Microsoft.OutlookForWindows"
-	"Microsoft.549981C3F5F10"
-	"Microsoft.Windows.DevHome"
-        )
+	    "Microsoft.OutlookForWindows"
+	    "Microsoft.549981C3F5F10"
+	    "Microsoft.Windows.DevHome"
+    )
+    WriteLog "Removing Apps"
 
+    WriteLog "Checking for the following apps $ProvisionedAppPackageNames"
     $ProvisionedStoreApps = (Get-AppXProvisionedPackage -Online).DisplayName
+    WriteLog "Provisioned apps: $ProvisionedStoreApps"
     
     foreach ($ProvisionedAppName in $ProvisionedAppPackageNames) {
         If($ProvisionedAppName -in $ProvisionedStoreApps) {
+            WriteLog "Removing $ProvisionedAppName"
             Get-AppxPackage -Name $ProvisionedAppName -AllUsers | Remove-AppxPackage
-            Get-AppXProvisionedPackage -Online | where DisplayName -EQ $ProvisionedAppName | Remove-AppxProvisionedPackage -Online -AllUsers
-            "$ProvisionedAppName removed" | out-file c:\windows\temp\AppsRemoved.txt -Append
+            Get-AppXProvisionedPackage -Online | Where-Object DisplayName -EQ $ProvisionedAppName | Remove-AppxProvisionedPackage -Online -AllUsers
+            WriteLog "$ProvisionedAppName removed"
         }
     }
     exit 0
