@@ -359,3 +359,52 @@ Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/Bloc
 Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsAppx.xml
 
 ## Remediations
+
+Remediations have been removed in favor of using Win32 apps. 
+
+## Win32 Applications
+
+There are two Win32 applications that we provide. One removes built-in Windows apps, the other allows for devices to run Windows update without users signing in.
+
+* _MSFT - EDU - Device - Remove Microsoft Apps
+* _MSFT - EDU - Device - Windows Update Before Initial Logon Allowed
+
+Win32 apps are preferred over Remediations due to predicability. When provisioning a new device, Win32 apps can be configured to be required via the Enrollment Status Page, whereas with Remediations, they cannot be relied on to run at a specific time (they can be scheduled to run at a specific time, however once that time passes, devices provisioned after that time can run the remediation at an indeterministic time).
+
+Both applications are PowerShell scripts that have been converted from Remediations. 
+
+### _MSFT - EDU - Device - Remove Microsoft Apps
+
+This application will remove the following built-in applications. [Source of the scripts.](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/Remediations/RemoveBuiltInApps)
+
+* "Microsoft.YourPhone"
+* "Microsoft.SkypeApp"
+* "Microsoft.XboxGameOverlay"
+* "Microsoft.Messaging"
+* "Microsoft.XboxGamingOverlay"
+* "Microsoft.People"
+* "Microsoft.MicrosoftOfficeHub"
+* "Microsoft.BingWeather"
+* "Microsoft.Microsoft3DViewer"
+* "Microsoft.MicrosoftSolitaireCollection"
+* "Microsoft.MixedReality.Portal"
+* "microsoft.windowscommunicationsapps"
+* "Microsoft.XboxApp"
+* "MicrosoftTeams"
+* "Microsoft.BingNews"
+* "Microsoft.SurfaceHub"
+* "Microsoft.GamingApp"
+* "Microsoft.ZuneVideo"
+* "Microsoft.OutlookForWindows"
+* "Microsoft.549981C3F5F10" (this is Cortana)
+* "Microsoft.Windows.DevHome"
+
+### _MSFT - EDU - Device - Windows Update Before Initial Logon Allowed
+
+This application will allow Windows Update to be able to scan and install updates before a user signs in. This requires Windows 11 22H2+ with the 2023-04 Cumulative Update. 
+
+This is beneficial for shared carts and other scenarios where devices are provsioned and then sit with power and internet connectivity, but no user signing on for a long period of time. For example, a partner or a school district that provisions thousands of devices during the summer, puts them in a cart, ships the devices to schools, and plugs the cart in. In this scenario, if the devices are configured in our [recommended Shared device configuration](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#_msft---edu---device---shared-cartlab-sharedpc) and have deployed this application, Shared PC would wake the device each night and the device will check for updates and install as needed. Without this application, these devices wouldn't update until a user signs in.
+
+More information about this can be found [here.](https://learn.microsoft.com/en-us/windows/deployment/update/waas-wu-settings#allow-windows-updates-to-install-before-initial-user-sign-in) The source of the scripts can be found [here](https://github.com/rbalsleyMSFT/IntuneScripts/tree/main/Remediations/UpdateBeforeInitialUserSignin).
+
+## Update rings
