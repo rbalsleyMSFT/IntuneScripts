@@ -1,6 +1,15 @@
 # EDU Device Configuration Settings Reference
 
-The following guide serves as the settings reference for the Recommended EDU Device configuration settings for Windows 10/11 devices.
+The following guide serves as the settings reference for the Recommended EDU Device configuration settings for Windows 10/11 devices. It is broken down into the following sections:
+
+* [Configuration Profiles](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#configuration-profiles)
+* [Win32 Applications](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#win32-applications)
+* [Update Rings](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#update-rings)
+* [Endpoint Security | Antivirus](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#endpoint-security--antivirus)
+* [Endpoint Security | Disk Encryption](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#endpoint-security--disk-encryption)
+* [Autopilot Profiles](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#autopilot-profiles)
+* [Filters](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#filters)
+* [Enrollment Status Page](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md#enrollment-status-page)
 
 ## Configuration Profiles
 
