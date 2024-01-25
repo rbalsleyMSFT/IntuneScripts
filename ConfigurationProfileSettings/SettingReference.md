@@ -571,7 +571,7 @@ There are two Autopilot profiles that are configured
 * MSFT | EDU | Self Deploy Autopilot | Customize
 * MSFT | EDU | User Driven | Customize
 
-Both of these profiles should be customized by the IT admin to include the device name template that they wish to use. 
+Both of these profiles should be customized by the IT admin to include the device name template that they wish to use.
 
 ### MSFT | EDU | Self Deploy Autopilot | Customize
 
@@ -593,7 +593,7 @@ Self Deploying Autopilot profiles are the fastest way to onboard a device using 
 
 ### MSFT | EDU | User Driven | Customize
 
-This Autopilot profile creates a [User Driven](https://learn.microsoft.com/en-us/autopilot/user-driven) profile. User-driven profiles are great for 1:1 deployments where a single-user will be using the device. The device will be registered for the user who does the initial enrollment and will associate that user as the primary user. If a secondary user signs into the device, they will be unable to use the Company Portal for self-service application installs and other self-service actions. This is important to understand as it can cause issues when a device is reissued to another user in the organization. The device should ideally be reset or reimaged, or the primary user should be changed in Intune to the new user in order for the Company Portal to work as expected. 
+This Autopilot profile creates a [User Driven](https://learn.microsoft.com/en-us/autopilot/user-driven) profile. User-driven profiles are great for 1:1 deployments where a single-user will be using the device. The device will be registered for the user who does the initial enrollment and will associate that user as the primary user. If a secondary user signs into the device, they will be unable to use the Company Portal for self-service application installs and other self-service actions. This is important to understand as it can cause issues when a device is reissued to another user in the organization. The device should ideally be reset or reimaged, or the primary user should be changed in Intune to the new user in order for the Company Portal to work as expected.
 
 | Setting (Category\Setting name)  | What it does                                                                                                                                                                                                                                                                                                         | Value                                                        |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -610,4 +610,63 @@ This Autopilot profile creates a [User Driven](https://learn.microsoft.com/en-us
 
 ## Filters
 
+There are two filters that are created.  
+
+* _MSFT - EDU - All Windows 11 Devices
+* _MSFT - EDU - All Windows 10 Devices
+
+These filters are provided so they can be used when deploying either the _MSFT - EDU - Device - Remove Widgets (Windows 11) or _MSFT - EDU - Device - Remove News and Interests (Windows 10) configuration profiles.
+
+News and Interests and Widgets, while they may seem the same within Windows, they're managed differently. If you try to remove these in one Settings Catalog profile and you manage both Windows 10 and 11 devices, you'll find that your Windows 10 devices will report errors when disabling Widgets, and you'll find your Windows 11 devices will report errors when disabling News and Interests. To workaround this and to get clean reporting data, you'll want create two separate profiles that target your Windows 10 and Windows 11 devices.
+
+We handle this using filters, but you can also create separate groups for Windows 10 and Windows 11 devices instead of using filters. 
+
+### _MSFT - EDU - All Windows 11 Devices
+
+This filter uses the following rule syntax
+
+```
+(device.osVersion -startsWith "10.0.2") 
+```
+
+This filter is to be used with the _MSFT - EDU - Device - Remove Widgets (Windows 11) configration profile. When deploying it, make sure to select **Edit filter**. In the Filters flyout, select the **Include filtered devices in assignment** and select the **_MSFT - EDU - All Windows 11 Devices** filter and finally click **Select**. Next, **Review + Save** the assignment.
+
+![1706138584999](image/SettingReference/1706138584999.png)
+
+### _MSFT - EDU - All Windows 10 Devices
+
+This filter uses the following rule syntax
+
+```
+(device.osVersion -startsWith "10.0.1") 
+```
+
+This filter is to be used with the _MSFT - EDU - Device - Remove News and Interests (Windows 10) configration profile. When deploying it, make sure to select **Edit filter**. In the Filters flyout, select the **Include filtered devices in assignment** and select the **_MSFT - EDU - All Windows 10 Devices** filter and finally click **Select**. Next, **Review + Save** the assignment.
+
+![1706138928589](image/SettingReference/1706138928589.png)
+
 ## Enrollment Status Page
+
+There is one Enrollment Status Page that gets configured
+
+* _MSFT - EDU - Device - Enrollment Status Page
+
+### _MSFT - EDU - Device - Enrollment Status Page
+
+This enrollment status page is optional, and may even be duplicitive in your environment if you already have an ESP configured. This is included mainly for new tenants.
+
+You may want to adjust the **Block device use until required apps are installed if they are assigned to the user/device** to **Selected** if you have a lot of applications to install. If you're building a custom image that contains most of your apps and Intune isn't deploying much, this option could slow down the overall deployment time (this is especially true in large EDU deployments that happen right before the school year). If that's the case, chose Selected and select one application that shouldn't take too long. For example, you could select the _MSFT - EDU - Device - Remove Microsoft Apps Win32 app which has a small payload size and shouldn't take too long to run.
+
+You may wonder why have an ESP at all if I have all of my application content in my image. The reason for that is to be able to monitor the status of the deployment. If the deployment fails to enroll to Entra ID or Intune, you wouldn't know that without the ESP until you attempted to sign into the device. And if it joined successfully to Entra ID, but failed to enroll to Intune, you may not realize this until the user has been using the device for sometime. 
+
+| Setting (Category\Setting name)                                                            | Value |
+| ------------------------------------------------------------------------------------------ | ----- |
+| Show app and profile configuration progress                                                | Yes   |
+| Show an error when installation takes longer than specified number of minutes              | 60    |
+| Show custom message when time limit or error occurs                                        | Yes   |
+| Turn on log collection and diagnostics page for end users                                  | Yes   |
+| Only show page to devices provisioned by out-of-box experience (OOBE)                      | Yes   |
+| Block device use until all apps and profiles are installed                                 | Yes   |
+| Allow users to reset device if installation error occurs                                   | Yes   |
+| Allow users to use device if installation error occurs                                     | No    |
+| Block device use until required apps are installed if they are assigned to the user/device | All   |
