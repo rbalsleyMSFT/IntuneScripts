@@ -17,15 +17,15 @@ These settings are not all-inclusive. There will be additional settings that sho
 
 When importing the Microsoft EDU device configuration settings from this repository, the following items are created. Each item that's imported is prefixed with _MSFT - EDU - *Device/Student* where *Device/Student* is the group that item should be targeted to. Most of these items will be targeted to device groups, while a few will go to student user groups to restrict students from doing certain things (e.g. installing apps that they shouldn't be installing).
 
-Below you will find a screenshot of each configuration type that is imported. If you want a detailed list of what policies are included in each item, please refer to the [settings reference](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md). 
+Below you will find a screenshot of each configuration type that is imported. If you want a detailed list of what policies are included in each item, please refer to the [settings reference](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/SettingReference.md).
 
 ## Configuration Profiles
 
 ![1701131182054](image/Readme/1701131182054.png)
 
-## Remediations
+## Win32 Applications
 
-![1701126075532](image/Readme/1701126075532.png)
+![1706147342620](image/Readme/1706147342620.png)
 
 ## Update rings
 
