@@ -8,8 +8,7 @@ The goal of this resource is to provide an easy way for EDU IT administrators to
 
 * 1 to 1 Device (faculty and student)
 * Student User
-* Shared Cart/Lab
-* Kiosk (coming soon)
+* Shared Cart/Lab/Kiosk
 
 These settings are not all-inclusive. There will be additional settings that should be added. If you have feedback, please [open an issue](https://github.com/rbalsleyMSFT/IntuneScripts/issues) or [pull request](https://github.com/rbalsleyMSFT/IntuneScripts/pulls).
 
