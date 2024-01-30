@@ -48,7 +48,7 @@ Below you will find a screenshot of each configuration type that is imported. If
 To import these settings, you will need to download the [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) from [Micke-K](https://github.com/Micke-K). This script will allow for easy import of these settings. This tool isn't supported by Microsoft. - [Read the documentation](https://github.com/Micke-K/IntuneManagement#readme) if you have any questions.
 
 1. Download [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) and extract its contents.
-2. Download [MSFT - EDU Recommended Intune Configuration.zip](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/ConfigurationProfileSettings/MSFT%20-%20EDU%20Recommended%20Intune%20Configurationv2.zip) and extract its contents
+2. Download [MSFT - EDU Recommended Intune Configuration.zip](https://github.com/rbalsleyMSFT/IntuneScripts/raw/main/ConfigurationProfileSettings/MSFT%20-%20EDU%20Recommended%20Intune%20Configurationv3.zip) and extract its contents
 3. In the folder that you extracted the IntuneManagement PowerShell script to, double-click the start.cmd file. You may need to Unblock the start.cmd file before running (right-click the start.cmd file, select properties, then click the Unblock check box)
 4. Sign-in with Global Admin or Intune Administrator permissions by clicking on the profile icon in the top right. It will ask you to consent permissions to the Intune Powershell App. Make sure to consent for your account and not on behalf of the tenant.
 5. You may need to close and re-run start.cmd once permissions have been granted
