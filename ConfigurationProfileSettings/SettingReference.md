@@ -378,9 +378,13 @@ There are two Win32 applications that we provide. One removes built-in Windows a
 * _MSFT - EDU - Device - Remove Microsoft Apps
 * _MSFT - EDU - Device - Windows Update Before Initial Logon Allowed
 
-Win32 apps are preferred over Remediations due to predicability. When provisioning a new device, Win32 apps can be configured to be required via the Enrollment Status Page, whereas with Remediations, they cannot be relied on to run at a specific time (they can be scheduled to run at a specific time, however once that time passes, devices provisioned after that time can run the remediation at an indeterministic time).
+For these two use cases, Win32 apps are preferred over Remediations due to predicability. When provisioning a new device, Win32 apps can be configured to be required via the Enrollment Status Page, whereas with Remediations, they cannot be relied on to run at a specific time (they can be scheduled to run at a specific time, however once that time passes, devices provisioned after that time can run the remediation at an indeterministic time).
 
 Both applications are PowerShell scripts that have been converted from Remediations.
+
+When creating the assignments for these Win32 applications, make sure under **End user notifications** to set **Hide all toast notifications.** In the event any of the Microsoft Apps get reinstalled (either due to in-place upgrade to a new version of Windows, or some other manner) the toast notification won't spawn the next time the Win32 app runs when it detects any of the apps coming back.
+
+![1706641162506](image/SettingReference/1706641162506.png)
 
 ### _MSFT - EDU - Device - Remove Microsoft Apps
 
