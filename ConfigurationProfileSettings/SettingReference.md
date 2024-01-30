@@ -500,7 +500,7 @@ For shared devices (carts, labs, etc) that have a user present, use the followin
 | Deadline for feature updates                            | Specifies the number of days a user has before feature updates are installed on their devices automatically                                                                                                                                                                                                                                                                  | 7                                                      |
 | Deadline for quality updates                            | Specifies the number of days a user has before quality updates are installed on their devices automatically                                                                                                                                                                                                                                                                  | 3                                                      |
 | Grace period                                            | Specifies a minimum number of days after deadline until restarts occur automatically                                                                                                                                                                                                                                                                                         | 2                                                      |
-| Auto reboot before deadline                             | Specifies if the device should auto reboot before deadline                                                                                                                                                                                                                                                                                                                   | No                                                     |
+| Auto reboot before deadline                             | Specifies if the device should auto reboot before deadline                                                                                                                                                                                                                                                                                                                   | Yes                                                    |
 
 ## Endpoint Security | Antivirus
 
@@ -619,7 +619,7 @@ This Autopilot profile creates a [User Driven](https://learn.microsoft.com/en-us
 
 ## Filters
 
-There are two filters that are created.  
+There are two filters that are created.
 
 * _MSFT - EDU - All Windows 11 Devices
 * _MSFT - EDU - All Windows 10 Devices
@@ -628,7 +628,7 @@ These filters are provided so they can be used when deploying either the _MSFT -
 
 News and Interests and Widgets, while they may seem the same within Windows, they're managed differently. If you try to remove these in one Settings Catalog profile and you manage both Windows 10 and 11 devices, you'll find that your Windows 10 devices will report errors when disabling Widgets, and you'll find your Windows 11 devices will report errors when disabling News and Interests. To workaround this and to get clean reporting data, you'll want create two separate profiles that target your Windows 10 and Windows 11 devices.
 
-We handle this using filters, but you can also create separate groups for Windows 10 and Windows 11 devices instead of using filters. 
+We handle this using filters, but you can also create separate groups for Windows 10 and Windows 11 devices instead of using filters.
 
 ### _MSFT - EDU - All Windows 11 Devices
 
@@ -666,7 +666,7 @@ This enrollment status page is optional, and may even be duplicitive in your env
 
 You may want to adjust the **Block device use until required apps are installed if they are assigned to the user/device** to **Selected** if you have a lot of applications to install. If you're building a custom image that contains most of your apps and Intune isn't deploying much, this option could slow down the overall deployment time (this is especially true in large EDU deployments that happen right before the school year). If that's the case, chose Selected and select one application that shouldn't take too long. For example, you could select the _MSFT - EDU - Device - Remove Microsoft Apps Win32 app which has a small payload size and shouldn't take too long to run.
 
-You may wonder why have an ESP at all if I have all of my application content in my image. The reason for that is to be able to monitor the status of the deployment. If the deployment fails to enroll to Entra ID or Intune, you wouldn't know that without the ESP until you attempted to sign into the device. And if it joined successfully to Entra ID, but failed to enroll to Intune, you may not realize this until the user has been using the device for sometime. 
+You may wonder why have an ESP at all if I have all of my application content in my image. The reason for that is to be able to monitor the status of the deployment. If the deployment fails to enroll to Entra ID or Intune, you wouldn't know that without the ESP until you attempted to sign into the device. And if it joined successfully to Entra ID, but failed to enroll to Intune, you may not realize this until the user has been using the device for sometime.
 
 | Setting (Category\Setting name)                                                            | Value |
 | ------------------------------------------------------------------------------------------ | ----- |
