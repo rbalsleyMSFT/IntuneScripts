@@ -45,6 +45,8 @@ Below you will find a screenshot of each configuration type that is imported. If
 # Instructions
 
 [![Alternate Text](http://img.youtube.com/vi/1HT_xdUBKZk/0.jpg)](https://www.youtube.com/watch?v=1HT_xdUBKZk "Windows Device Best Practice Settings for Education with Microsoft Intune")
+
+
 To import these settings, you will need to download the [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) from [Micke-K](https://github.com/Micke-K). This script will allow for easy import of these settings. This tool isn't supported by Microsoft. - [Read the documentation](https://github.com/Micke-K/IntuneManagement#readme) if you have any questions.
 
 1. Download [IntuneManagement PowerShell script](https://github.com/Micke-K/IntuneManagement/archive/refs/heads/master.zip) and extract its contents.
