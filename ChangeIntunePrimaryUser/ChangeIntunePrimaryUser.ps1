@@ -12,7 +12,7 @@ $tenantId = '<Your tenantID>'
 
 $Logfile = "$PSScriptRoot\ChangePrimaryUser.log"
 function WriteLog($LogText) { 
-    Add-Content -path $LogFile -value "$((Get-Date).ToString()) $LogText" -Force -ErrorAction SilentlyContinue
+    Add-Content -path $LogFile -value "$((Get-Date).ToString()) $LogText" -Force -ErrorAction SilentlyContinue -Encoding UTF8
     Write-Verbose $LogText
 }
 function Get-AccessToken {
