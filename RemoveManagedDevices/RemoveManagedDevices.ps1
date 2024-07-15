@@ -7,9 +7,9 @@ param (
 )
 
 # Replace these with your app registration values
-$clientId = 'df299240-30d0-4bdd-93b3-86d1d7a18062'
-$clientSecret ='amK8Q~h_or~416loshtU3Z7L7MKiuIsVHCE1WboC'
-$tenantId = '8444af60-c5f4-4eae-a652-7f58021eb57d'
+$clientId = 'YOUR CLIENT ID HERE'
+$clientSecret ='YOUR CLIENT SECRET HERE'
+$tenantId = 'YOUR TENANT ID HERE'
 
 # Log files
 $Logfile = "$PSScriptRoot\RemovedDevices.log"
