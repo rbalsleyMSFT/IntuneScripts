@@ -41,7 +41,7 @@ To add the permissions, click **Add a permission** and select **Microsoft Graph*
 
 Once you've selected the permissions, click **Grant admin consent for "your tenant name"**. Your permissions should look like this.
 
-![image](https://)
+![image](https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/RemoveDevices/image/Readme/Permissions.png)
 
 Now you're ready to customize the script.
 
