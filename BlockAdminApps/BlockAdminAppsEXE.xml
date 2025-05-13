@@ -19,6 +19,9 @@
 			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT® WINDOWS® OPERATING SYSTEM" BinaryName="REGEDIT.EXE">
 				<BinaryVersionRange LowSection="*" HighSection="*" />
 			</FilePublisherCondition>
+			<FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="STORE INSTALLER" BinaryName="STOREINSTALLER.EXE">
+				<BinaryVersionRange LowSection="*" HighSection="*" />
+			</FilePublisherCondition>
 		</Exceptions>
 	</FilePathRule>
 	<FilePathRule Id="fd686d83-a829-4351-8ff4-27c7de5755d2" Name="(Default Rule) All files" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow">
