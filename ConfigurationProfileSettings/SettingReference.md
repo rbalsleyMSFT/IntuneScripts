@@ -354,15 +354,21 @@ The Account setup phase can take a very long time to process, increasing the amo
 The following settings are primarily focused on student users to prevent them from being able to run administrative apps: cmd, powershell, reg, regedit, and terminal.
 
 **Name:** Deny Admin apps EXE
-**Description:** Block selected Administrative Apps: Cmd, PS, Regedit, or Registry Console Tool.
+
+**Description:** Block selected Administrative Apps: Cmd, PS, Regedit, Registry Console Tool, and Store Installer exes (the exes that are downloaded from apps.microsoft.com that work around the Microsoft Store application being blocked)
+
 **OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/EXE/Policy
+
 **Data Type:** String (XML File)
 
 Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsEXE.xml
 
 **Name:** Deny Microsoft Terminal
+
 **Description:** Deny Microsoft Terminal
+
 **OMA-URI:** ./Vendor/MSFT/AppLocker/ApplicationLaunchRestrictions/IntuneEdu/StoreApps/Policy
+
 **Data Type:** String (XML File)
 
 Download XML file - https://github.com/rbalsleyMSFT/IntuneScripts/blob/main/BlockAdminApps/BlockAdminAppsAppx.xml
